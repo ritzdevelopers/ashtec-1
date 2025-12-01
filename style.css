@@ -80,38 +80,151 @@
     max-width: 100%;
     height: auto;
   }
-  
+
   /* Better touch targets for mobile */
-  button, a {
+  button,
+  a {
     min-height: 44px;
     min-width: 44px;
   }
-  
+
   /* Prevent horizontal scroll */
   body {
     overflow-x: hidden;
   }
-  
+
   /* Better form inputs on mobile */
-  input, textarea {
+  input,
+  textarea {
     font-size: 16px; /* Prevents zoom on iOS */
   }
 }
 
 /* Better touch targets for interactive elements */
-button, a, input[type="submit"] {
+button,
+a,
+input[type="submit"] {
   touch-action: manipulation;
 }
 
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Offset for fixed navbar when scrolling */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+@media (max-width: 1280px) {
+  section[id] {
+    scroll-margin-top: 60px;
+  }
+}
+
+/* Mobile Menu Styles */
+.mobile-menu-overlay {
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-menu-overlay.menu-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu-content {
+  position: relative;
+  z-index: 1;
+}
+
+.mobile-menu-item {
+  cursor: pointer;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.mobile-menu-item.menu-item-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Prevent body scroll when menu is open */
+body.menu-open {
+  overflow: hidden;
+  height: 100vh;
+}
 
 @media (min-width: 250px) and (max-width: 600px) {
- .footer {
+  .footer {
     background-image: url("./img/footer/footer-img-mb.png") !important;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     height: 100vh !important;
- }
- 
- 
+  }
+}
+
+.crclAnim {
+  animation: crclJumpTo90 1s cubic-bezier(0.45,0,0.55,1) forwards;
+}
+
+.crclAnimReverse {
+  animation: crclJumpTo80 1s cubic-bezier(0.45,0,0.55,1) forwards;
+}
+
+@keyframes crclJumpTo90 {
+  0% {
+    top: 80%;
+  }
+  70% {
+    top: 78%;
+  }
+  100% {
+    top: 90%;
+  }
+}
+
+@keyframes crclJumpTo80 {
+  0% {
+    top: 91%;
+  }
+  
+  100% {
+    top: 80%;
+  }
+}
+
+.crclLinks {
+  animation: crclLinksAnime 1s ease-in-out forwards;
+}
+
+.crclLinksHide {
+  animation: crclLinksHideAnime 1s ease-in-out forwards;
+}
+
+@keyframes crclLinksAnime {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes crclLinksHideAnime {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }

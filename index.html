@@ -18,14 +18,114 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body class="overflow-x-hidden">
+    <!-- Mobile Menu Overlay -->
+    <div
+      id="mobileMenu"
+      class="mobile-menu-overlay fixed inset-0 z-[100] bg-black/95 backdrop-blur-md hidden"
+    >
+      <!-- Close Button -->
+      <div class="absolute top-6 right-6 z-[101]">
+        <button
+          id="closeMenuBtn"
+          class="flex items-center justify-center bg-white w-[40px] h-[40px] rounded-[4px] cursor-pointer hover:bg-gray-200 transition-colors"
+        >
+          <svg
+            class="w-6 h-6 text-black"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Menu Content -->
+      <div
+        class="mobile-menu-content h-full flex flex-col items-center justify-center px-6"
+      >
+        <!-- Logo -->
+        <div class="mb-12 mobile-menu-item">
+          <img src="img/ash-logo.png" alt="ash-logo" class="w-[200px] h-auto" />
+        </div>
+
+        <!-- Menu Items -->
+        <ul class="flex flex-col items-center justify-center gap-8 mb-12">
+          <li class="mobile-menu-item">
+            <a
+              href="#home"
+              class="text-white font-[500] text-[20px] hover:text-[#EAB91F] transition-colors"
+              style="font-family: 'MonsterMedium'"
+              >Home</a
+            >
+          </li>
+          <li class="mobile-menu-item">
+            <a
+              href="#highlights"
+              class="text-white font-[500] text-[20px] hover:text-[#EAB91F] transition-colors"
+              style="font-family: 'MonsterMedium'"
+              >Highlights</a
+            >
+          </li>
+          <li class="mobile-menu-item">
+            <a
+              href="#connectivity"
+              class="text-white font-[500] text-[20px] hover:text-[#EAB91F] transition-colors"
+              style="font-family: 'MonsterMedium'"
+              >Connectivity</a
+            >
+          </li>
+          <li class="mobile-menu-item">
+            <a
+              href="#floorPlan"
+              class="text-white font-[500] text-[20px] hover:text-[#EAB91F] transition-colors"
+              style="font-family: 'MonsterMedium'"
+              >Floor Plan</a
+            >
+          </li>
+          <li class="mobile-menu-item">
+            <a
+              href="#amenities"
+              class="text-white font-[500] text-[20px] hover:text-[#EAB91F] transition-colors"
+              style="font-family: 'MonsterMedium'"
+              >Amenities</a
+            >
+          </li>
+          <li class="mobile-menu-item">
+            <a
+              href="#contactUs"
+              class="text-white font-[500] text-[20px] hover:text-[#EAB91F] transition-colors"
+              style="font-family: 'MonsterMedium'"
+              >Contact Us</a
+            >
+          </li>
+        </ul>
+
+        <!-- Contact Button -->
+        <button
+          id="mobileContactBtn"
+          class="mobile-menu-item w-full max-w-[280px] h-[50px] bg-gradient-to-r from-[#DA8712] to-[#EAB91F] font-[400] text-[18px] rounded-full text-white hover:opacity-90 transition-opacity"
+          style="font-family: 'MonsterRegular'"
+        >
+          Contact Us
+        </button>
+      </div>
+    </div>
+
     <main class="relative">
       <!-- Section 1 Is Starting From Here  -->
       <section
-        class="s1 w-screen h-screen relative flex flex-col lg:flex-row overflow-x-hidden"
+        id="home"
+        class="s1 w-screen h-screen relative flex flex-col lg:flex-row overflow-hidden"
       >
         <!-- Left Side Container  -->
         <div
-          class="s1-left-container hidden lg:block lg:w-[10%] h-full relative"
+          class="s1-left-container hidden lg:block lg:w-[10%] h-full relative overflow-visible"
         >
           <button
             class="w-[150px] h-[37px] bg-gradient-to-r from-[#EAB91F] to-[#DA8712] text-white absolute -left-[57px] top-[60%] rotate-[90deg]"
@@ -35,7 +135,7 @@
           </button>
 
           <!-- Rounded Circle SVG  -->
-          <p class="absolute left-1/2 -translate-x-1/2 top-[80%]">
+          <p class="absolute cursor-pointer left-1/2 -translate-x-1/2 top-[80%] crcleBtn">
             <svg
               width="56"
               height="69"
@@ -68,12 +168,66 @@
               />
             </svg>
           </p>
+
+          <!-- Rounded Circle Links  -->
+          <div
+            class="absolute left-1/2 top-[70%] w-[217px] h-[119px] bg-white rounded-[8px] flex flex-col justify-center hidden items-center z-50 shadow-lg py-2 crclLinks"
+          >
+            <div class="flex items-center w-full h-full px-4 gap-3 border-b-[1px] border-[#EEEEEE] hover:bg-gray-50 transition-colors cursor-pointer">
+              <div class="flex items-center justify-center">
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 22 22"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20.8881 15.9201V18.9201C20.8892 19.1986 20.8322 19.4743 20.7206 19.7294C20.6091 19.9846 20.4454 20.2137 20.2402 20.402C20.035 20.5902 19.7927 20.7336 19.5289 20.8228C19.265 20.912 18.9855 20.9452 18.7081 20.9201C15.631 20.5857 12.6751 19.5342 10.0781 17.8501C7.66194 16.3148 5.61345 14.2663 4.07812 11.8501C2.38809 9.2413 1.33636 6.27109 1.00812 3.1801C0.983127 2.90356 1.01599 2.62486 1.10462 2.36172C1.19324 2.09859 1.33569 1.85679 1.52288 1.65172C1.71008 1.44665 1.93792 1.28281 2.19191 1.17062C2.44589 1.05843 2.72046 1.00036 2.99812 1.0001H5.99812C6.48342 0.995321 6.95391 1.16718 7.32188 1.48363C7.68985 1.80008 7.93019 2.23954 7.99812 2.7201C8.12474 3.68016 8.35957 4.62282 8.69812 5.5301C8.83266 5.88802 8.86178 6.27701 8.78202 6.65098C8.70227 7.02494 8.51698 7.36821 8.24812 7.6401L6.97812 8.9101C8.40167 11.4136 10.4746 13.4865 12.9781 14.9101L14.2481 13.6401C14.52 13.3712 14.8633 13.1859 15.2372 13.1062C15.6112 13.0264 16.0002 13.0556 16.3581 13.1901C17.2654 13.5286 18.2081 13.7635 19.1681 13.8901C19.6539 13.9586 20.0975 14.2033 20.4146 14.5776C20.7318 14.9519 20.9003 15.4297 20.8881 15.9201Z"
+                    stroke="black"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <p
+                class="font-[500] text-[16px] text-[#000000] flex-1"
+                style="font-family: 'MonsterMedium'"
+              >
+                Schedule a call
+              </p>
+            </div>
+            <div class="flex items-center w-full h-full px-4 gap-3 hover:bg-gray-50 transition-colors cursor-pointer">
+              <div class="flex items-center justify-center">
+                <svg
+                  width="21"
+                  height="21"
+                  viewBox="0 0 21 21"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1 10L20 1L11 20L9 12L1 10Z"
+                    stroke="black"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <p
+                class="font-[500] text-[16px] text-[#000000] flex-1"
+                style="font-family: 'MonsterMedium'"
+              >
+                share
+              </p>
+            </div>
+          </div>
         </div>
 
         <!-- Right Side Container  -->
-        <div
-          class="s1-right-container w-full lg:w-[90%] h-full relative"
-        >
+        <div class="s1-right-container w-full lg:w-[90%] h-full relative">
           <img
             src="img/s1/ash-s1-i1.png"
             alt="s1-right-img"
@@ -82,9 +236,7 @@
 
           <!-- Absolute Positioned Element  -->
           <div
-            class="absolute bottom-4 left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-[-10%]
-             md:right-4 lg:bottom-10 lg:right-2 xl:right-0 
-             w-[280px] lg:w-[360px] h-[40px] lg:h-[46px] flex items-center justify-center glassEffect px-2"
+            class="absolute bottom-4 left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-[-10%] md:right-4 lg:bottom-10 lg:right-2 xl:right-0 w-[280px] lg:w-[360px] h-[40px] lg:h-[46px] flex items-center justify-center glassEffect px-2"
           >
             <p
               class="text-white font-[500] text-[14px] lg:text-[22px]"
@@ -130,12 +282,12 @@
           class="hidden xl:flex items-center justify-center font-[500] text-[16px] text-white gap-[28px]"
           style="font-family: 'MonsterMedium'"
         >
-          <li>Home</li>
-          <li>Highlights</li>
-          <li>Connectivity</li>
-          <li>Floor Plan</li>
-          <li>Amenities</li>
-          <li>Contact Us</li>
+          <li class="cursor-pointer"><a href="#home">Home</a></li>
+          <li class="cursor-pointer"><a href="#highlights">Highlights</a></li>
+          <li class="cursor-pointer"><a href="#connectivity">Connectivity</a></li>
+          <li class="cursor-pointer"><a href="#floorPlan">Floor Plan</a></li>
+          <li class="cursor-pointer"><a href="#amenities">Amenities</a></li>
+          <li class="cursor-pointer"><a href="#contactUs">Contact Us</a></li>
         </ul>
 
         <button
@@ -146,11 +298,12 @@
         </button>
 
         <!-- Menu Icon  -->
-        <div
-          class="xl:hidden flex items-center justify-center bg-white w-[40px] h-[40px] rounded-[4px]"
+        <button
+          id="menuIconBtn"
+          class="xl:hidden flex items-center justify-center bg-white w-[40px] h-[40px] rounded-[4px] cursor-pointer hover:bg-gray-200 transition-colors"
         >
           <img src="img/menu.png" alt="menu-icon" class="w-[24px] h-[24px]" />
-        </div>
+        </button>
       </nav>
 
       <!-- Section 2 Is Starting From Here  -->
@@ -228,6 +381,7 @@
 
       <!-- Section 3 Is Starting From Here   -->
       <section
+        id="highlights"
         class="s3 w-screen min-h-screen bg-[#FFFEFB00] border-t-2 border-gray-200 flex flex-col items-center justify-between"
       >
         <!-- Centered Align Content Div  -->
@@ -462,6 +616,7 @@
 
       <!-- Section 5 Is Starting From Here   -->
       <section
+        id="connectivity"
         class="w-screen min-h-[686px] flex justify-center items-center py-8 px-4 xl:px-0"
       >
         <!-- Center Align Container  -->
@@ -625,6 +780,7 @@
 
       <!-- Section 6 Is Starting From Here   -->
       <section
+        id="floorPlan"
         class="s5 w-screen min-h-[533px] bg-black flex justify-center items-center py-8"
       >
         <!-- Centered Align Container   -->
@@ -725,6 +881,7 @@
 
       <!-- Section 7 Is Starting From Here   -->
       <section
+      id="amenities"
         class="w-screen min-h-[593px] flex flex-col justify-center items-center gap-8 lg:gap-12 py-8"
       >
         <!-- Center Align 1st Container  -->
@@ -750,8 +907,9 @@
             class="font-[600] text-[28px] block md:hidden text-center capitalize text-black"
             style="font-family: 'MonsterSemiBold'"
           >
-            <span class="text-[#AC1F0F]">Luxury</span> Clubhouse with 100+ Lifestyle & Wellness <span class="text-[#AC1F0F]">Amenities</span> for Every
-            Age
+            <span class="text-[#AC1F0F]">Luxury</span> Clubhouse with 100+
+            Lifestyle & Wellness
+            <span class="text-[#AC1F0F]">Amenities</span> for Every Age
           </h2>
         </div>
 
@@ -899,6 +1057,7 @@
 
       <!-- Section 8 Is Starting From Here   -->
       <section
+        id="contactUs"
         class="w-screen min-h-[761px] bg-gradient-to-b from-[#FFFEFB00] to-[#FFECA1] flex justify-end py-8 px-4 xl:px-0"
       >
         <!-- Center End Align Container  -->
@@ -933,7 +1092,7 @@
               class="w-full lg:w-[606px] h-auto lg:h-[505px] bg-[#FFFFFF] shadow-[0_1px_16px_6px_rgba(218, 218, 218, 0.25)] flex justify-center items-center p-4 xl:p-0"
             >
               <form
-                class="flex flex-col gap-4 justify-center items-center w-full p-5 xl:p-0"
+                class="flex flex-col gap-8 justify-center items-center w-full p-5 "
               >
                 <p
                   class="font-[600] text-[22px] capitalize"
@@ -942,35 +1101,35 @@
                   Contact Us Now!
                 </p>
                 <div
-                  class="w-full flex flex-col lg:flex-row justify-between gap-4"
+                  class="w-full flex flex-col lg:flex-row justify-between lg:justify-center gap-2"
                 >
                   <input
                     type="text"
-                    class="w-full lg:w-[259px] h-[50px] lg:h-[61px] border-[1px] border-[#D1D1D1] p-2"
+                    class="w-full lg:w-[259px] h-[50px] lg:h-[61px] border-[1px] border-[#D1D1D1] p-2 rounded-[4px]"
                     placeholder="Name"
                   />
                   <input
                     type="text"
-                    class="w-full lg:w-[259px] h-[50px] lg:h-[61px] border-[1px] border-[#D1D1D1] p-2"
+                    class="w-full lg:w-[259px] h-[50px] lg:h-[61px] border-[1px] border-[#D1D1D1] p-2 rounded-[4px]"
                     placeholder="Email"
                   />
                 </div>
                 <div
-                  class="w-full flex flex-col lg:flex-row justify-between gap-4"
+                  class="w-full flex flex-col lg:flex-row justify-center gap-2"
                 >
                   <input
                     type="text"
-                    class="w-full lg:w-[259px] h-[50px] lg:h-[61px] border-[1px] border-[#D1D1D1] p-2"
+                    class="w-full lg:w-[259px] h-[50px] lg:h-[61px] border-[1px] border-[#D1D1D1] p-2 rounded-[4px]"
                     placeholder="Phone"
                   />
                   <input
                     type="text"
-                    class="w-full lg:w-[259px] h-[50px] lg:h-[61px] border-[1px] border-[#D1D1D1] p-2"
+                    class="w-full lg:w-[259px] h-[50px] lg:h-[61px] border-[1px] border-[#D1D1D1] p-2 rounded-[4px]"
                     placeholder="Preferred Time"
                   />
                 </div>
                 <textarea
-                  class="w-full h-[95px] resize-none border-[1px] border-[#D1D1D1] p-2"
+                  class="lg:w-[94%] h-[95px] resize-none border-[1px] border-[#D1D1D1] p-2 rounded-[4px]"
                   placeholder="Message"
                 ></textarea>
                 <button
@@ -984,7 +1143,7 @@
 
             <!-- Map Section  -->
             <div
-              class="w-full lg:w-[670px] h-[530px] md:h-[300px] lg:h-[530px] overflow-hidden rounded-[30px]"
+              class="w-full lg:w-[670px] h-[530px] md:h-[300px] lg:h-[530px] overflow-hidden rounded-[30px] lg:rounded-[0px]"
             >
               <img
                 src="img/ash-map.png"
@@ -1007,7 +1166,7 @@
         "
       >
         <!-- Absolute Positioned Grediant Container   -->
-        <div class="w-full grd h-full absolute inset-0 z-10 ">
+        <div class="w-full grd h-full absolute inset-0 z-10">
           <img
             src="img/footer/footer-grediant.png"
             alt="footer-grediant"
