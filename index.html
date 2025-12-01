@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GSAP ScrollTrigger Boilerplate</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <!-- GSAP ScrollTrigger CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="overflow-x-hidden">
+    <main class="relative">
+      <!-- Section 1 Is Starting From Here  -->
+      <section
+        class="s1 w-screen h-screen relative flex flex-col lg:flex-row overflow-x-hidden"
+      >
+        <!-- Left Side Container  -->
+        <div
+          class="s1-left-container hidden lg:block lg:w-[10%] h-full relative"
+        >
+          <button
+            class="w-[150px] h-[37px] bg-gradient-to-r from-[#EAB91F] to-[#DA8712] text-white absolute -left-[57px] top-[60%] rotate-[90deg]"
+            style="font-family: 'MonsterMedium'"
+          >
+            Enquiry Now
+          </button>
+
+          <!-- Rounded Circle SVG  -->
+          <p class="absolute left-1/2 -translate-x-1/2 top-[80%]">
+            <svg
+              width="56"
+              height="69"
+              viewBox="0 0 56 69"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="0.5"
+                y="11"
+                width="47"
+                height="47"
+                rx="23.5"
+                stroke="#111111"
+              />
+              <circle cx="24.3203" cy="34.5" r="19.3203" fill="#111111" />
+              <path
+                d="M24.2896 28.9564V40.623"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M18.4563 34.7897H30.1229"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </p>
+        </div>
+
+        <!-- Right Side Container  -->
+        <div
+          class="s1-right-container bg-red-600 w-full lg:w-[90%] h-full relative"
+        >
+          <img
+            src="img/s1/ash-s1-i1.png"
+            alt="s1-right-img"
+            class="w-full h-full object-cover"
+          />
+
+          <!-- Absolute Positioned Element  -->
+          <div
+            class="absolute bottom-4 left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-[-10%]
+             md:right-4 lg:bottom-10 lg:right-2 xl:right-0 
+             w-[280px] lg:w-[360px] h-[40px] lg:h-[46px] flex items-center justify-center glassEffect px-2"
+          >
+            <p
+              class="text-white font-[500] text-[14px] lg:text-[22px]"
+              style="font-family: 'MonsterMedium'"
+            >
+              Sector 12, Greater Noida (W)
+            </p>
+          </div>
+        </div>
+
+        <!-- Absolute Positioned Element  -->
+        <div
+          class="lg:w-[88%] w-full hidden xl:flex absolute top-4 lg:top-7 left-1/2 -translate-x-1/2 flex flex-col lg:flex-row items-center justify-between px-4 lg:px-0 gap-2 lg:gap-0"
+        >
+          <img
+            src="img/ash-logo.png"
+            alt="ash-logo"
+            class="w-[150px] lg:w-[271px] h-auto lg:h-[40px]"
+          />
+
+          <img
+            src="img/ash-qr.png"
+            alt="ash-qr"
+            class="w-[200px] lg:w-[436px] h-auto lg:h-[82px] hidden md:block"
+          />
+        </div>
+
+        <!-- Mobile QR  -->
+        <img
+          src="img/ash-qr.png"
+          alt="ash-qr"
+          class="w-[343px] h-[65px] absolute left-1/2 -translate-x-1/2 top-20 md:right-4 block lg:hidden"
+        />
+      </section>
+
+      <!-- Sticky Position Navbar  -->
+      <nav
+        class="w-full h-[60px] lg:h-[78px] bg-black fixed xl:sticky top-0 z-50 flex justify-between xl:justify-center items-center px-4 gap-4 lg:gap-[88px] p-7 md:p-0"
+      >
+        <img src="img/ash-logo.png" alt="ash-logo" class="w-[237px] h-[35px]" />
+
+        <ul
+          class="hidden xl:flex items-center justify-center font-[500] text-[16px] text-white gap-[28px]"
+          style="font-family: 'MonsterMedium'"
+        >
+          <li>Home</li>
+          <li>Highlights</li>
+          <li>Connectivity</li>
+          <li>Floor Plan</li>
+          <li>Amenities</li>
+          <li>Contact Us</li>
+        </ul>
+
+        <button
+          class="w-[120px] lg:w-[162px] h-[32px] lg:h-[38px] bg-gradient-to-r from-[#DA8712] to-[#EAB91F] font-[400] text-[12px] lg:text-[16px] rounded-full text-white hidden xl:block"
+          style="font-family: 'MonsterRegular'"
+        >
+          Contact Us
+        </button>
+
+        <!-- Menu Icon  -->
+        <div
+          class="xl:hidden flex items-center justify-center bg-white w-[40px] h-[40px] rounded-[4px]"
+        >
+          <img src="img/menu.png" alt="menu-icon" class="w-[24px] h-[24px]" />
+        </div>
+      </nav>
+
+      <!-- Section 2 Is Starting From Here  -->
+      <section
+        class="w-screen min-h-[563px] bg-gradient-to-b from-[#FFECA1] to-[#FFFEFB00] flex justify-center items-center py-8 lg:py-0"
+      >
+        <!-- Center Align Container  -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-center px-4 lg:px-0 gap-8 lg:gap-0"
+        >
+          <!-- Left Side Content Container  -->
+          <div
+            class="w-full xl:w-[720px] text-center flex flex-col items-center justify-center gap-[11px] px-4"
+          >
+            <p
+              class="font-[500] text-[12px] lg:text-[16px] uppercase"
+              style="
+                font-family: 'MonsterMedium';
+                background: linear-gradient(90deg, #e9981f, #472e0a);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                color: transparent;
+              "
+            >
+              Pre - launch
+            </p>
+            <p
+              class="font-[500] text-[18px] lg:text-[28px] uppercase"
+              style="font-family: 'MonsterMedium'"
+            >
+              The Signature Address Of
+            </p>
+            <h1
+              class="font-[700] text-[32px] lg:text-[56px] uppercase"
+              style="
+                font-family: 'PlayfairBold';
+                background: linear-gradient(90deg, #da8712 0%, #215430 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                color: transparent;
+              "
+            >
+              Timeless Grandeur
+            </h1>
+            <div
+              class="flex items-center justify-center border-t-2 border-[#B17D25] border-b-2 border-b-[#B17D25] py-[10px] w-full lg:w-[70%]"
+            >
+              <p
+                class="font-[600] text-[14px] lg:text-[18px] uppercase px-2"
+                style="font-family: 'MonsterSemiBold'"
+              >
+                Premium 3 & 4 BHK Sundeck Residences
+              </p>
+            </div>
+            <button
+              class="w-full max-w-[280px] h-[50px] lg:h-[58px] bg-gradient-to-r from-[#DA8712] to-[#EAB91F] font-[600] text-[16px] lg:text-[20px] text-white mt-[16px]"
+              style="font-family: 'OpenSansSemiBold'"
+            >
+              2.51 CR* ONWards
+            </button>
+          </div>
+
+          <!-- Right Side Image Container  -->
+          <div class="w-full lg:w-[441px] h-auto xl:h-[503px]">
+            <img
+              src="/img/s2/ash-s2-i1.png"
+              alt="ash-s2-i1"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3 Is Starting From Here   -->
+      <section
+        class="s3 w-screen min-h-screen bg-[#FFFEFB00] border-t-2 border-gray-200 flex flex-col items-center justify-between"
+      >
+        <!-- Centered Align Content Div  -->
+        <div
+          class="flex flex-col items-center justify-center gap-[20px] py-8 px-4"
+        >
+          <h2
+            class="font-[600] text-[24px] lg:text-[36px] text-center uppercase"
+            style="font-family: 'MonsterSemiBold'"
+          >
+            A Landmark of prestige and <br class="hidden md:block" />
+            <span
+              class="font-[700] text-[24px] lg:text-[36px] text-[#AC1F0F]"
+              style="font-family: 'MonsterBold'"
+            >
+              presidential Living</span
+            >
+          </h2>
+          <p
+            class="font-[400] text-[14px] lg:text-[16px] capitalize text-[#222021] text-center max-w-full lg:max-w-[60%]"
+            style="font-family: 'MonsterRegular'"
+          >
+            Experience an extraordinary confluence of elegance and
+            sophistication with premium 3 & 4 BHK Sundeck Residences at Sector
+            12, Greater Noida (W). Every residence is a finely crafted statement
+            in the art of modern living, where design, comfort, and exclusivity
+            come together in perfect balance.
+          </p>
+          <p
+            class="font-[400] text-[14px] lg:text-[16px] capitalize text-[#222021] text-center max-w-full lg:max-w-[65%]"
+            style="font-family: 'MonsterRegular'"
+          >
+            Planned on a rare three-sided open plot, the homes are bathed in
+            natural light and enhanced by excellent cross-ventilation. Indulge
+            in a grand 70,000 sq. ft clubhouse, an array of lifestyle amenities,
+            and 10 ft wraparound curved sun decks framing sweeping panoramic
+            vistas, crafted for those who value refinement, privilege, and the
+            quiet grandeur of elevated living.
+          </p>
+          <button
+            class="w-full max-w-[185px] h-[42px] bg-gradient-to-r from-[#DA8712] to-[#EAB91F] font-[400] text-[14px] lg:text-[16px] text-white mt-[16px] cursor-pointer rounded-full"
+            style="font-family: 'MonsterRegular'"
+          >
+            Book Site Visit
+          </button>
+        </div>
+
+        <!-- Bottom Image Container  -->
+        <div class="w-full h-auto xl:h-[304px]">
+          <img
+            src="img/s3/ash-s3-i1.png"
+            alt="ash-s3-i1"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      </section>
+
+      <!-- Section 4 Is Starting From Here  -->
+      <section
+        class="s4 w-screen min-h-screen bg-gradient-to-b from-[#FFFEFB00] to-[#FFECA1] flex justify-center items-center py-8 px-4 xl:px-0"
+      >
+        <!-- Centered Align Container  -->
+        <div
+          class="w-full xl:w-[80%] flex flex-col xl:flex-row justify-between items-center px-4 lg:px-0 gap-8 lg:gap-0"
+        >
+          <h2
+            class="uppercase font-[600] text-[24px] lg:text-[36px] block md:hidden"
+            style="font-family: 'MonsterSemiBold'"
+          >
+            Project <span class="text-[#AC1F0F]">overview</span>
+          </h2>
+          <!-- Left Side Container  -->
+          <div
+            class="flex flex-col-reverse lg:flex-row xl:flex-col gap-[40px] w-full xl:max-w-[514px]"
+          >
+            <!-- Image Container  -->
+            <div
+              class="w-full lg:w-[488px] h-[508px] md:h-[300px] lg:h-[508px] overflow-hidden rounded-[20px]"
+            >
+              <img
+                src="/img/s4/ash-s4-i1.png.png"
+                alt="ash-s4-i1"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <!-- Text Container  -->
+            <div class="flex flex-col gap-[16px]">
+              <div class="flex gap-2 items-center">
+                <img
+                  src="img/check-circle.png"
+                  alt="check-circle"
+                  class="w-[20px] h-[20px]"
+                />
+                <p
+                  class="font-[400] text-[14px] lg:text-[16px] capitalize text-[#11111199]"
+                  style="font-family: 'MonsterRegular'"
+                >
+                  5.6 Acres
+                </p>
+              </div>
+              <div class="flex gap-2 items-center">
+                <img
+                  src="img/check-circle.png"
+                  alt="check-circle"
+                  class="w-[18px] lg:w-[20px] h-[18px] lg:h-[20px]"
+                />
+                <p
+                  class="font-[400] text-[14px] lg:text-[16px] capitalize text-[#11111199]"
+                  style="font-family: 'MonsterRegular'"
+                >
+                  3-Side Open Plot
+                </p>
+              </div>
+              <div class="flex gap-2 items-center">
+                <img
+                  src="img/check-circle.png"
+                  alt="check-circle"
+                  class="w-[18px] lg:w-[20px] h-[18px] lg:h-[20px]"
+                />
+                <p
+                  class="font-[400] text-[14px] lg:text-[16px] capitalize text-[#11111199]"
+                  style="font-family: 'MonsterRegular'"
+                >
+                  5 Towers
+                </p>
+              </div>
+              <div class="flex gap-2 items-center">
+                <img
+                  src="img/check-circle.png"
+                  alt="check-circle"
+                  class="w-[18px] lg:w-[20px] h-[18px] lg:h-[20px]"
+                />
+                <p
+                  class="font-[400] text-[14px] lg:text-[16px] capitalize text-[#11111199]"
+                  style="font-family: 'MonsterRegular'"
+                >
+                  Three G+28 Towers and Two G+30 Towers
+                </p>
+              </div>
+              <div class="flex gap-2 items-center">
+                <img
+                  src="img/check-circle.png"
+                  alt="check-circle"
+                  class="w-[18px] lg:w-[20px] h-[18px] lg:h-[20px]"
+                />
+                <p
+                  class="font-[400] text-[14px] lg:text-[16px] capitalize text-[#11111199]"
+                  style="font-family: 'MonsterRegular'"
+                >
+                  2 Levels of Basement Parking
+                </p>
+              </div>
+              <div class="flex gap-2 items-center">
+                <img
+                  src="img/check-circle.png"
+                  alt="check-circle"
+                  class="w-[18px] lg:w-[20px] h-[18px] lg:h-[20px]"
+                />
+                <p
+                  class="font-[400] text-[14px] lg:text-[16px] capitalize text-[#11111199]"
+                  style="font-family: 'MonsterRegular'"
+                >
+                  5 High-Speed Elevator Per Tower
+                </p>
+              </div>
+              <div class="flex gap-2 items-center">
+                <img
+                  src="img/check-circle.png"
+                  alt="check-circle"
+                  class="w-[18px] lg:w-[20px] h-[18px] lg:h-[20px]"
+                />
+                <p
+                  class="font-[400] text-[14px] lg:text-[16px] capitalize text-[#11111199]"
+                  style="font-family: 'MonsterRegular'"
+                >
+                  8 Acres of Authority Park Overlooking the Project
+                </p>
+              </div>
+              <div class="flex gap-2 items-center">
+                <img
+                  src="img/check-circle.png"
+                  alt="check-circle"
+                  class="w-[18px] lg:w-[20px] h-[18px] lg:h-[20px]"
+                />
+                <p
+                  class="font-[400] text-[14px] lg:text-[16px] capitalize text-[#11111199]"
+                  style="font-family: 'MonsterRegular'"
+                >
+                  Hot & Cold VRV System
+                </p>
+              </div>
+              <div class="flex gap-2 items-center">
+                <img
+                  src="img/check-circle.png"
+                  alt="check-circle"
+                  class="w-[18px] lg:w-[20px] h-[18px] lg:h-[20px]"
+                />
+                <p
+                  class="font-[400] text-[14px] lg:text-[16px] capitalize text-[#11111199]"
+                  style="font-family: 'MonsterRegular'"
+                >
+                  Engaged with TQ Cert (Tata Group) to ensure end-to-end safety,
+                  quality, & planning
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Side Container  -->
+          <div
+            class="w-full lg:w-[652px] block md:hidden xl:block flex flex-col gap-10 lg:mt-20 mt-0"
+          >
+            <!-- Top Text Container  -->
+            <div class="hidden md:block">
+              <h2
+                class="uppercase font-[600] text-[24px] lg:text-[36px]"
+                style="font-family: 'MonsterSemiBold'"
+              >
+                Project <span class="text-[#AC1F0F]">overview</span>
+              </h2>
+            </div>
+            <div class="w-full">
+              <img
+                src="/img/s4/ash-s4-i2.png"
+                alt=""
+                class="h-[610px] md:h-[400px] lg:h-[854px] w-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5 Is Starting From Here   -->
+      <section
+        class="w-screen min-h-[686px] flex justify-center items-center py-8 px-4 xl:px-0"
+      >
+        <!-- Center Align Container  -->
+        <div
+          class="w-full xl:w-[80%] flex flex-col gap-8 lg:gap-14 px-4 lg:px-0"
+        >
+          <!-- Top Container  -->
+          <div
+            class="w-full flex flex-col lg:flex-row justify-between xl:px-12 items-start lg:items-center gap-4"
+          >
+            <!-- Left Side Div  -->
+            <div>
+              <h2
+                class="uppercase font-[600] text-[24px] lg:text-[36px]"
+                style="font-family: 'MonsterSemiBold'"
+              >
+                Location
+                <span class="font-[700]" style="font-family: 'MonsterBold'"
+                  >Benefits</span
+                >
+              </h2>
+              <p
+                class="font-[500] text-[14px] lg:text-[18px] text-[#22202199]"
+                style="font-family: 'MonsterMedium'"
+              >
+                Prime Greater Noida (W) Address, Surrounded by Life's
+                Conveniences
+              </p>
+            </div>
+
+            <!-- Right Side Div  -->
+            <div class="flex justify-center items-center gap-4 hidden md:flex">
+              <img
+                src="/img/lft-btn.png"
+                class="w-[60px] lg:w-[80px] h-[60px] lg:h-[80px] cursor-pointer"
+                alt="lft-btn"
+              />
+              <img
+                src="/img/rght-btn.png"
+                class="w-[60px] lg:w-[80px] h-[60px] lg:h-[80px] cursor-pointer"
+                alt="rgt-btn"
+              />
+            </div>
+
+            <!-- Mobile Side Div  -->
+            <div class="block md:hidden">
+              <button
+                class="w-[173px] h-[44px] bg-black text-white flex justify-center items-center font-[500] text-[18px]"
+              >
+                Connectivity
+                <p>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"
+                      fill="white"
+                    />
+                  </svg>
+                </p>
+              </button>
+            </div>
+          </div>
+
+          <!-- Bottom Container   -->
+          <div
+            class="flex flex-col lg:flex-row justify-center gap-8 lg:gap-[50px] items-center"
+          >
+            <div
+              class="w-full lg:w-[687px] h-[391px] rounded-[20px] md:rounded-none overflow-hidden md:h-[250px] lg:h-[391px]"
+            >
+              <img
+                src="./img/s5/ash-s5-i1.png"
+                alt="ash-s5-i1"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="w-full lg:w-auto h-auto lg:h-[359px]">
+              <h3
+                class="uppercase font-[600] text-[20px] lg:text-[24px]"
+                style="font-family: 'MonsterSemiBold'"
+              >
+                Healthcare
+              </h3>
+              <div class="flex flex-col gap-4 mt-4">
+                <div class="flex gap-2 items-center">
+                  <img
+                    src="img/pointer.png"
+                    alt="check-circle"
+                    class="w-[50px] h-[50px]"
+                  />
+                  <p
+                    class="font-[400] text-[20px] capitalize text-[#000000]"
+                    style="font-family: 'MonsterRegular'"
+                  >
+                    Yatharth Super Speciality Hospital
+                  </p>
+                </div>
+                <div class="flex gap-2 items-center">
+                  <img
+                    src="img/pointer.png"
+                    alt="check-circle"
+                    class="w-[40px] lg:w-[50px] h-[40px] lg:h-[50px]"
+                  />
+                  <p
+                    class="font-[400] text-[20px] capitalize text-[#000000]"
+                    style="font-family: 'MonsterRegular'"
+                  >
+                    Numed Super Speciality Hospital
+                  </p>
+                </div>
+                <div class="flex gap-2 items-center">
+                  <img
+                    src="img/pointer.png"
+                    alt="check-circle"
+                    class="w-[40px] lg:w-[50px] h-[40px] lg:h-[50px]"
+                  />
+                  <p
+                    class="font-[400] text-[20px] capitalize text-[#000000]"
+                    style="font-family: 'MonsterRegular'"
+                  >
+                    Nix Multi-Speciality Hospital
+                  </p>
+                </div>
+                <div class="flex gap-2 items-center">
+                  <img
+                    src="img/pointer.png"
+                    alt="check-circle"
+                    class="w-[40px] lg:w-[50px] h-[40px] lg:h-[50px]"
+                  />
+                  <p
+                    class="font-[400] text-[20px] capitalize text-[#000000]"
+                    style="font-family: 'MonsterRegular'"
+                  >
+                    Rudra Fracture Hospital & Diagnostics
+                  </p>
+                </div>
+                <div class="flex gap-2 items-center">
+                  <img
+                    src="img/pointer.png"
+                    alt="check-circle"
+                    class="w-[40px] lg:w-[50px] h-[40px] lg:h-[50px]"
+                  />
+                  <p
+                    class="font-[400] text-[20px] capitalize text-[#000000]"
+                    style="font-family: 'MonsterRegular'"
+                  >
+                    Arogaya Hospital
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6 Is Starting From Here   -->
+      <section
+        class="s5 w-screen min-h-[533px] bg-black flex justify-center items-center py-8"
+      >
+        <!-- Centered Align Container   -->
+        <div
+          class="w-full lg:w-[850px] flex flex-col gap-8 lg:gap-12 justify-center items-center px-4"
+        >
+          <h2
+            class="capitalize text-center font-[600] text-[24px] lg:text-[36px] text-white"
+            style="font-family: 'MonsterMedium'"
+          >
+            <span
+              class="font-[500] text-[#AC1F0F]"
+              style="font-family: 'MonsterSemiBold'"
+              >Spacious Homes</span
+            >
+            with3 Side <br />
+            Open Residences
+          </h2>
+
+          <div
+            class="w-full flex flex-col lg:flex-row justify-between gap-4 lg:gap-0"
+          >
+            <div
+              class="w-full lg:w-[401px] h-[200px] lg:h-[220px] bg-white text-black flex flex-col justify-center items-center text-center px-4"
+            >
+              <p
+                class="font-[400] text-[14px] lg:text-[18px]"
+                style="font-family: 'MonsterRegular'"
+              >
+                <span class="font-[600]" style="font-family: 'MonsterSemiBold'"
+                  >Types:</span
+                >
+                3 BHK
+              </p>
+              <p
+                class="font-[400] text-[14px] lg:text-[18px]"
+                style="font-family: 'MonsterRegular'"
+              >
+                <span class="font-[600]" style="font-family: 'MonsterSemiBold'"
+                  >Sizes:</span
+                >
+                2000 - 3000 sq. ft.
+              </p>
+              <p
+                class="font-[400] text-[14px] lg:text-[18px]"
+                style="font-family: 'MonsterRegular'"
+              >
+                <span class="font-[600]" style="font-family: 'MonsterSemiBold'"
+                  >Price:</span
+                >
+                ₹2.51 CR* Onwards
+              </p>
+            </div>
+
+            <div
+              class="w-full lg:w-[401px] h-[200px] lg:h-[220px] bg-white text-black flex flex-col justify-center items-center text-center px-4"
+            >
+              <p
+                class="font-[400] text-[14px] lg:text-[18px]"
+                style="font-family: 'MonsterRegular'"
+              >
+                <span class="font-[600]" style="font-family: 'MonsterSemiBold'"
+                  >Types:</span
+                >
+                4 BHK
+              </p>
+              <p
+                class="font-[400] text-[14px] lg:text-[18px]"
+                style="font-family: 'MonsterRegular'"
+              >
+                <span class="font-[600]" style="font-family: 'MonsterSemiBold'"
+                  >Sizes:</span
+                >
+                3100 - 3500 sq. ft.
+              </p>
+              <p
+                class="font-[400] text-[14px] lg:text-[18px]"
+                style="font-family: 'MonsterRegular'"
+              >
+                <span class="font-[600]" style="font-family: 'MonsterSemiBold'"
+                  >Price:</span
+                >On Request
+              </p>
+            </div>
+          </div>
+          <!-- Mobile Side Div  -->
+          <div
+            class="block md:hidden w-full h-auto flex justify-center items-center"
+          >
+            <img
+              src="./img/mobile-img.png"
+              alt="mobile-img"
+              class="w-full h-auto"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7 Is Starting From Here   -->
+      <section
+        class="w-screen min-h-[593px] flex flex-col justify-center items-center gap-8 lg:gap-12 py-8"
+      >
+        <!-- Center Align 1st Container  -->
+        <div class="flex flex-col justify-center items-center text-center px-4">
+          <p
+            class="font-[500] text-[16px] lg:text-[20px] uppercase text-[#22202199]"
+            style="font-family: 'MonsterMedium'"
+          >
+            Amenities
+          </p>
+          <h2
+            class="font-[600] text-[24px] lg:text-[36px] capitalize max-w-full lg:max-w-[826px] hidden md:block"
+            style="font-family: 'MonsterSemiBold'"
+          >
+            <span class="text-[#AC1F0F]">3 Floors </span> Clubhouse with
+            <span class="text-[#AC1F0F]"> 50+ Amenities </span>
+            <br class="hidden md:block" />
+            70000 Sq.ft of Club and Amenities Area
+          </h2>
+
+          <!-- Mobile Side H2  -->
+          <h2
+            class="font-[600] text-[28px] block md:hidden text-center capitalize text-black"
+            style="font-family: 'MonsterSemiBold'"
+          >
+            <span class="text-[#AC1F0F]">Luxury</span> Clubhouse with 100+ Lifestyle & Wellness <span class="text-[#AC1F0F]">Amenities</span> for Every
+            Age
+          </h2>
+        </div>
+
+        <!-- Center Align 2nd Container  -->
+        <div
+          class="max-w-[994px] flex justify-center items-center gap-[20px] md:gap-[12px] lg:gap-[16px] flex-wrap px-4"
+        >
+          <div
+            class="min-w-[140px] lg:min-w-[161px] h-[120px] lg:h-[137px] shadow-[0_4px_16px_0_rgba(0,0,0,0.1)] flex flex-col gap-2 justify-center items-center"
+          >
+            <img
+              src="./img/amenities/sh-am-1.png"
+              alt=""
+              class="w-[50px] lg:w-auto h-auto"
+            />
+            <p
+              class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
+              style="font-family: 'MonsterMedium'"
+            >
+              Clubhouse
+            </p>
+          </div>
+          <div
+            class="min-w-[140px] lg:min-w-[161px] h-[120px] lg:h-[137px] shadow-[0_4px_16px_0_rgba(0,0,0,0.1)] flex flex-col gap-2 justify-center items-center"
+          >
+            <img
+              src="./img/amenities/sh-am-2.png"
+              alt=""
+              class="w-[50px] lg:w-auto h-auto"
+            />
+            <p
+              class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
+              style="font-family: 'MonsterMedium'"
+            >
+              Clubhouse
+            </p>
+          </div>
+          <div
+            class="min-w-[140px] lg:min-w-[161px] h-[120px] lg:h-[137px] shadow-[0_4px_16px_0_rgba(0,0,0,0.1)] flex flex-col gap-2 justify-center items-center"
+          >
+            <img
+              src="./img/amenities/sh-am-3.png"
+              alt=""
+              class="w-[50px] lg:w-auto h-auto"
+            />
+            <p
+              class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
+              style="font-family: 'MonsterMedium'"
+            >
+              Clubhouse
+            </p>
+          </div>
+          <div
+            class="min-w-[140px] lg:min-w-[161px] h-[120px] lg:h-[137px] shadow-[0_4px_16px_0_rgba(0,0,0,0.1)] flex flex-col gap-2 justify-center items-center"
+          >
+            <img
+              src="./img/amenities/sh-am-4.png"
+              alt=""
+              class="w-[50px] lg:w-auto h-auto"
+            />
+            <p
+              class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
+              style="font-family: 'MonsterMedium'"
+            >
+              Clubhouse
+            </p>
+          </div>
+          <div
+            class="min-w-[140px] lg:min-w-[161px] h-[120px] lg:h-[137px] shadow-[0_4px_16px_0_rgba(0,0,0,0.1)] flex flex-col gap-2 justify-center items-center"
+          >
+            <img
+              src="./img/amenities/sh-am-5.png"
+              alt=""
+              class="w-[50px] lg:w-auto h-auto"
+            />
+            <p
+              class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
+              style="font-family: 'MonsterMedium'"
+            >
+              Clubhouse
+            </p>
+          </div>
+          <div
+            class="min-w-[140px] lg:min-w-[161px] h-[120px] lg:h-[137px] shadow-[0_4px_16px_0_rgba(0,0,0,0.1)] flex flex-col gap-2 justify-center items-center"
+          >
+            <img
+              src="./img/amenities/sh-am-6.png"
+              alt=""
+              class="w-[50px] lg:w-auto h-auto"
+            />
+            <p
+              class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
+              style="font-family: 'MonsterMedium'"
+            >
+              Clubhouse
+            </p>
+          </div>
+          <div
+            class="min-w-[140px] lg:min-w-[161px] h-[120px] lg:h-[137px] shadow-[0_4px_16px_0_rgba(0,0,0,0.1)] flex flex-col gap-2 justify-center items-center hidden md:flex"
+          >
+            <img
+              src="./img/amenities/sh-am-7.png"
+              alt=""
+              class="w-[50px] lg:w-auto h-auto"
+            />
+            <p
+              class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
+              style="font-family: 'MonsterMedium'"
+            >
+              Clubhouse
+            </p>
+          </div>
+          <div
+            class="min-w-[140px] lg:min-w-[161px] h-[120px] lg:h-[137px] shadow-[0_4px_16px_0_rgba(0,0,0,0.1)] flex flex-col gap-2 justify-center items-center"
+          >
+            <img
+              src="./img/amenities/sh-am-8.png"
+              alt=""
+              class="w-[50px] lg:w-auto h-auto"
+            />
+            <p
+              class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
+              style="font-family: 'MonsterMedium'"
+            >
+              Clubhouse
+            </p>
+          </div>
+          <div
+            class="min-w-[140px] lg:min-w-[161px] h-[120px] lg:h-[137px] shadow-[0_4px_16px_0_rgba(0,0,0,0.1)] flex flex-col gap-2 justify-center items-center"
+          >
+            <img
+              src="./img/amenities/sh-am-9.png"
+              alt=""
+              class="w-[50px] lg:w-auto h-auto"
+            />
+            <p
+              class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
+              style="font-family: 'MonsterMedium'"
+            >
+              Clubhouse
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8 Is Starting From Here   -->
+      <section
+        class="w-screen min-h-[761px] bg-gradient-to-b from-[#FFFEFB00] to-[#FFECA1] flex justify-end py-8 px-4 xl:px-0"
+      >
+        <!-- Center End Align Container  -->
+        <div
+          class="w-full xl:w-[90%] flex flex-col gap-8 lg:gap-12 px-4 lg:px-0"
+        >
+          <h2
+            class="font-[500] text-[28px] md:text-[24px] lg:text-[36px] capitalize text-[#111111]"
+            style="font-family: 'MonsterMedium'"
+          >
+            <span
+              class="font-[600] text-[#000000]"
+              style="font-family: 'MonsterSemiBold'"
+              >Exclusive</span
+            >
+            Residences.
+            <br />
+            <span
+              class="text-[#AC1F0F] font-[600]"
+              style="font-family: 'MonsterSemiBold'"
+            >
+              Exceptional Demand </span
+            >Secure Yours Today.
+          </h2>
+
+          <!-- Form And Location Container  -->
+          <div
+            class="w-full flex flex-col xl:flex-row justify-center items-center xl:justify-between gap-8 xl:gap-0"
+          >
+            <!-- Form Section  -->
+            <div
+              class="w-full lg:w-[606px] h-auto lg:h-[505px] bg-[#FFFFFF] shadow-[0_1px_16px_6px_rgba(218, 218, 218, 0.25)] flex justify-center items-center p-4 xl:p-0"
+            >
+              <form
+                class="flex flex-col gap-4 justify-center items-center w-full p-5 xl:p-0"
+              >
+                <p
+                  class="font-[600] text-[22px] capitalize"
+                  style="font-family: 'MonsterSemiBold'"
+                >
+                  Contact Us Now!
+                </p>
+                <div
+                  class="w-full flex flex-col lg:flex-row justify-between gap-4"
+                >
+                  <input
+                    type="text"
+                    class="w-full lg:w-[259px] h-[50px] lg:h-[61px] border-[1px] border-[#D1D1D1] p-2"
+                    placeholder="Name"
+                  />
+                  <input
+                    type="text"
+                    class="w-full lg:w-[259px] h-[50px] lg:h-[61px] border-[1px] border-[#D1D1D1] p-2"
+                    placeholder="Email"
+                  />
+                </div>
+                <div
+                  class="w-full flex flex-col lg:flex-row justify-between gap-4"
+                >
+                  <input
+                    type="text"
+                    class="w-full lg:w-[259px] h-[50px] lg:h-[61px] border-[1px] border-[#D1D1D1] p-2"
+                    placeholder="Phone"
+                  />
+                  <input
+                    type="text"
+                    class="w-full lg:w-[259px] h-[50px] lg:h-[61px] border-[1px] border-[#D1D1D1] p-2"
+                    placeholder="Preferred Time"
+                  />
+                </div>
+                <textarea
+                  class="w-full h-[95px] resize-none border-[1px] border-[#D1D1D1] p-2"
+                  placeholder="Message"
+                ></textarea>
+                <button
+                  class="w-full max-w-[162px] h-[42px] bg-[#000000] text-white font-[400] text-[14px] lg:text-[16px] cursor-pointer rounded-full"
+                  style="font-family: 'MonsterRegular'"
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
+
+            <!-- Map Section  -->
+            <div
+              class="w-full lg:w-[670px] h-[530px] md:h-[300px] lg:h-[530px] overflow-hidden rounded-[30px]"
+            >
+              <img
+                src="img/ash-map.png"
+                alt="ash-map"
+                class="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer Section  -->
+      <section
+        class="footer w-screen min-h-[771px] relative flex items-center"
+        style="
+          background-image: url('img/footer/footer-img.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        "
+      >
+        <!-- Absolute Positioned Grediant Container   -->
+        <div class="w-full grd h-full absolute inset-0 z-10 ">
+          <img
+            src="img/footer/footer-grediant.png"
+            alt="footer-grediant"
+            class="w-full h-full object-cover hidden md:block"
+          />
+          <img
+            src="/img/footer/mobile-grd.png"
+            alt="mobile-grd"
+            class="w-full h-full absolute inset-0 z-10 block md:hidden"
+          />
+        </div>
+
+        <!-- Center Align Container  -->
+        <div
+          class="w-full lg:w-[498px] z-20 relative flex flex-col gap-4 ml-4 lg:ml-10 px-4 lg:px-0 md:py-8 lg:py-0"
+        >
+          <h2
+            class="font-[600] text-[28px] md:text-[24px] lg:text-[36px] capitalize text-[#ffffff]"
+            style="font-family: 'MonsterSemiBold'"
+          >
+            <span class="text-[#AC1F0F]">About</span> Ashtech Group
+          </h2>
+          <p
+            class="font-[400] text-[16px] capitalize text-[#ffffff] leading-[29px]"
+            style="font-family: 'MonsterRegular'"
+          >
+            Established in 1992, Ashtech Group has evolved into one ofIndia's
+            most trusted infrastructure partners. With expertisespanning
+            Projects, Fly Ash, Bricks, AAC Blocks, Logistics,Ready-Mix Concrete,
+            Pre-Engineered Buildings, Power Infra,and Real Estate, the Group has
+            played a vital role in shapinglarge-scale projects across the
+            country.
+          </p>
+          <p
+            class="font-[400] text-[16px] capitalize text-[#ffffff] leading-[29px]"
+            style="font-family: 'MonsterRegular'"
+          >
+            Today, it has presence in 50+ cities across India, and hasdelivered
+            1000+ projects with 350+ reputed partners. With1,200+ professionals,
+            1 Million+ tonnes of waste repurposedannually, ISO-certified systems
+            and zero-complaints,Ashtech Group continues to drive sustainable,
+            future-readyinfrastructure solutions for India.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="w-screen">
+      <div
+        class="w-full h-auto lg:h-[60px] bg-black flex flex-row justify-center items-center gap-4 lg:gap-10 py-4 lg:py-0 px-4"
+      >
+        <p
+          class="font-[400] text-[14px] lg:text-[16px] text-white"
+          style="font-family: 'MonsterRegular'"
+        >
+          Disclaimer
+        </p>
+        <p
+          class="font-[400] text-[14px] lg:text-[16px] text-white"
+          style="font-family: 'MonsterRegular'"
+        >
+          Privacy Policy
+        </p>
+      </div>
+      <div
+        class="w-full h-auto lg:h-[60px] bg-white flex flex-col md:flex-row justify-center items-center gap-2 py-4 lg:py-0 px-4"
+      >
+        <p
+          class="font-[400] text-[12px] lg:text-[16px] text-[#00000066] italic text-center"
+          style="font-family: 'MonsterItalic'"
+        >
+          © 2025 Ashtech Presidential Towers. All rights reserved.
+        </p>
+        <p
+          class="font-[400] text-[12px] lg:text-[16px] text-[#00000066] italic text-center"
+          style="font-family: 'MonsterItalic'"
+        >
+          digital media planned by Ritz Media World
+        </p>
+      </div>
+    </footer>
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+  </body>
+</html>

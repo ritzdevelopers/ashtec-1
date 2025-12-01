@@ -1,0 +1,117 @@
+/* Custom styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Custom scrollbar (optional) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.glassEffect {
+  /* From https://css.glass */
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+}
+
+/* Monster Medium, Regular , SemiBold, Bold, italic */
+
+@font-face {
+  font-family: "MonsterMedium";
+  src: url("./static/Montserrat-Medium.ttf");
+}
+
+@font-face {
+  font-family: "MonsterRegular";
+  src: url("./static/Montserrat-Regular.ttf");
+}
+
+@font-face {
+  font-family: "MonsterBold";
+  src: url("./static/Montserrat-Bold.ttf");
+}
+
+@font-face {
+  font-family: "MonsterSemiBold";
+  src: url("./static/Montserrat-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: "MonsterItalic";
+  src: url("./static/Montserrat-Italic.ttf");
+}
+
+/* Plafer Bold  */
+
+@font-face {
+  font-family: "PlayfairBold";
+  src: url("./Playfair_Display/static/PlayfairDisplay-Bold.ttf");
+}
+
+/* Open Sans SemiBold,  */
+@font-face {
+  font-family: "OpenSansSemiBold";
+  src: url("./Open_Sans/static/OpenSans-SemiBold.ttf");
+}
+
+/* Responsive Utilities */
+@media (max-width: 768px) {
+  /* Ensure images don't overflow */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Better touch targets for mobile */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Better form inputs on mobile */
+  input, textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Better touch targets for interactive elements */
+button, a, input[type="submit"] {
+  touch-action: manipulation;
+}
+
+
+@media (min-width: 250px) and (max-width: 600px) {
+ .footer {
+    background-image: url("./img/footer/footer-img-mb.png") !important;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh !important;
+ }
+ 
+ 
+}
