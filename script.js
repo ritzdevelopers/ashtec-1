@@ -116,45 +116,63 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const crcleBtn = document.querySelector(".crcleBtn");
+  const circleBtnContainer = document.getElementById("circleBtnContainer");
+  const circleToggleBtn = document.getElementById("circleToggleBtn");
+  const circleIcon = document.getElementById("circleIcon");
+  const circleIconCross = document.getElementById("circleIconCross");
   const crclLinks = document.querySelector(".crclLinks");
   let isOpen = false;
 
-  crcleBtn.addEventListener("click", () => {
-    if (!isOpen) {
-      // Opening animation
-      crclLinks.classList.remove("hidden");
-      // Trigger reflow to ensure element is rendered
-      void crclLinks.offsetWidth;
+  // Use the button or container for click event
+  const clickTarget = circleToggleBtn || circleBtnContainer;
+  
+  if (clickTarget && crclLinks) {
+    clickTarget.addEventListener("click", (e) => {
+      e.stopPropagation();
+      
+      if (!isOpen) {
+        // Opening animation
+        crclLinks.classList.remove("hidden");
+        // Trigger reflow to ensure element is rendered
+        void crclLinks.offsetWidth;
 
-      // Remove any previous animation classes
-      crcleBtn.classList.remove("crclAnimReverse");
-      crclLinks.classList.remove("crclLinksHide");
-
-      // Apply opening animations
-      crcleBtn.classList.add("crclAnim");
-      crclLinks.classList.add("crclLinks");
-
-      isOpen = true;
-    } else {
-      // Closing animation
-      // Remove opening animation classes
-      crcleBtn.classList.remove("crclAnim");
-      crclLinks.classList.remove("crclLinks");
-
-      // Apply closing animations
-      crcleBtn.classList.add("crclAnimReverse");
-      crclLinks.classList.add("crclLinksHide");
-
-      // Wait for animation to complete before hiding
-      setTimeout(() => {
-        crclLinks.classList.add("hidden");
-        crcleBtn.classList.remove("crclAnimReverse");
+        // Remove any previous animation classes
+        circleBtnContainer.classList.remove("crclAnimReverse");
         crclLinks.classList.remove("crclLinksHide");
-        isOpen = false;
-      }, 1000); // Match animation duration
-    }
-  });
+
+        // Apply opening animations
+        circleBtnContainer.classList.add("crclAnim");
+        crclLinks.classList.add("crclLinks");
+
+        // Toggle icons - hide plus, show cross
+        if (circleIcon) circleIcon.classList.add("hidden");
+        if (circleIconCross) circleIconCross.classList.remove("hidden");
+
+        isOpen = true;
+      } else {
+        // Closing animation
+        // Remove opening animation classes
+        circleBtnContainer.classList.remove("crclAnim");
+        crclLinks.classList.remove("crclLinks");
+
+        // Apply closing animations
+        circleBtnContainer.classList.add("crclAnimReverse");
+        crclLinks.classList.add("crclLinksHide");
+
+        // Toggle icons - show plus, hide cross
+        if (circleIcon) circleIcon.classList.remove("hidden");
+        if (circleIconCross) circleIconCross.classList.add("hidden");
+
+        // Wait for animation to complete before hiding
+        setTimeout(() => {
+          crclLinks.classList.add("hidden");
+          circleBtnContainer.classList.remove("crclAnimReverse");
+          crclLinks.classList.remove("crclLinksHide");
+          isOpen = false;
+        }, 1000); // Match animation duration
+      }
+    });
+  }
 });
 
 // Slider Animation Controllers ::
@@ -267,13 +285,6 @@ document.addEventListener("DOMContentLoaded", () => {
   sliderLeftBtn = document.querySelector(".sliderLeftBtn");
   sliderRightBtn = document.querySelector(".sliderRightBtn");
 
-  // Set initial state based on index 0 (even)
-  const isOdd = sliderIndex % 2 !== 0;
-  if (!isOdd && sliderTitleActive && sliderListActive) {
-    sliderTitleActive.classList.add("slide-up");
-    sliderListActive.classList.add("slide-up");
-  }
-
   // Add event listeners
   if (sliderLeftBtn) {
     sliderLeftBtn.addEventListener("click", () => {
@@ -308,44 +319,7 @@ function updateSlider(direction) {
     sliderIndex = 0;
   }
 
-  // Determine if current index is odd or even
-  const isOdd = sliderIndex % 2 !== 0;
-
-  // Remove previous animation classes to reset state
-  sliderTitleActive.classList.remove("slide-down", "slide-up", "fade-out");
-  sliderTitleNext.classList.remove("slide-down", "slide-up", "fade-out");
-  sliderListActive.classList.remove("slide-down", "slide-up", "fade-out");
-  sliderListNext.classList.remove("slide-down", "slide-up", "fade-out");
-  
-  // Ensure next elements have the next class for initial transform state
-  if (!sliderTitleNext.classList.contains("slider-title-next")) {
-    sliderTitleNext.classList.add("slider-title-next");
-  }
-  if (!sliderListNext.classList.contains("slider-list-next")) {
-    sliderListNext.classList.add("slider-list-next");
-  }
-
-  // STEP 1: Start translateY animation IMMEDIATELY on click
-  // Apply translateY classes to both active (fade-out) and next (fade-in) elements
-  if (isOdd) {
-    // Odd index: next should end at slide-down (translateY(20px))
-    // So it starts at translateY(0) via the .slider-title-next.slide-down rule
-    sliderTitleNext.classList.add("slide-down");
-    sliderListNext.classList.add("slide-down");
-    // Active elements move to opposite position as they fade out
-    sliderTitleActive.classList.add("slide-up");
-    sliderListActive.classList.add("slide-up");
-  } else {
-    // Even index: next should end at slide-up (translateY(0))
-    // So it starts at translateY(20px) via the .slider-title-next.slide-up rule
-    sliderTitleNext.classList.add("slide-up");
-    sliderListNext.classList.add("slide-up");
-    // Active elements move to opposite position as they fade out
-    sliderTitleActive.classList.add("slide-down");
-    sliderListActive.classList.add("slide-down");
-  }
-  
-  // STEP 2: Update content in next elements (while translateY is starting)
+  // Update content in next elements
   sliderTitleNext.textContent = sliderData[sliderIndex].title;
   sliderListNext.innerHTML = sliderData[sliderIndex].list
     .map(
@@ -355,115 +329,99 @@ function updateSlider(direction) {
     )
     .join("");
   
-  // STEP 3: Preload image and setup for cross-fade
+  // Preload image
   sliderImgNext.src = sliderData[sliderIndex].img;
   
-  // Set next elements z-index and initial opacity (very minimal merge effect)
-  sliderImgNext.style.opacity = "0";
+  // Set z-index for layering and ensure proper opacity
   sliderImgNext.style.zIndex = "2";
   sliderImgActive.style.zIndex = "1";
-  
-  // Start with very low opacity for minimal merge effect
-  sliderTitleNext.style.opacity = "0.15";
   sliderTitleNext.style.zIndex = "2";
   sliderTitleActive.style.zIndex = "1";
-  
-  sliderListNext.style.opacity = "0.15";
   sliderListNext.style.zIndex = "2";
   sliderListActive.style.zIndex = "1";
   
-  // Start animation immediately without waiting for image load
-  // Use requestAnimationFrame to ensure DOM is updated before animation
-  requestAnimationFrame(() => {
-    // Force reflow to ensure initial state is applied
-    sliderImgNext.offsetHeight;
-    sliderTitleNext.offsetHeight;
-    sliderListNext.offsetHeight;
+  // Determine slide direction
+  // direction = 1 (right button): new slides in from right, old slides out to left
+  // direction = -1 (left button): new slides in from left, old slides out to right
+  const slideInClass = direction === 1 ? "slide-in-right" : "slide-in-left";
+  const slideOutClass = direction === 1 ? "slide-out-left" : "slide-out-right";
+  
+  // Remove any previous animation classes
+  sliderImgActive.classList.remove("slide-out-left", "slide-out-right");
+  sliderImgNext.classList.remove("slide-in-left", "slide-in-right");
+  sliderTitleActive.classList.remove("slide-out-left", "slide-out-right");
+  sliderTitleNext.classList.remove("slide-in-left", "slide-in-right");
+  sliderListActive.classList.remove("slide-out-left", "slide-out-right");
+  sliderListNext.classList.remove("slide-in-left", "slide-in-right");
+  
+  // Apply slide-out to active elements
+  sliderImgActive.classList.add(slideOutClass);
+  sliderTitleActive.classList.add(slideOutClass);
+  sliderListActive.classList.add(slideOutClass);
+  
+  // Apply slide-in to next elements
+  sliderImgNext.classList.add(slideInClass);
+  sliderTitleNext.classList.add(slideInClass);
+  sliderListNext.classList.add(slideInClass);
+  
+  // After transition completes, swap all elements
+  setTimeout(() => {
+    // Swap image references
+    const tempImg = sliderImgActive;
+    sliderImgActive = sliderImgNext;
+    sliderImgNext = tempImg;
     
-    // STEP 4: Start synchronized cross-fade and translateY animation together
-    // Remove slider-title-next/slider-list-next classes to trigger transform animation
-    // This makes the element transition from initial transform to final transform
-    // during the fade-in, creating the merge effect
-    sliderTitleNext.classList.remove("slider-title-next");
-    sliderListNext.classList.remove("slider-list-next");
+    // Swap title references
+    const tempTitle = sliderTitleActive;
+    sliderTitleActive = sliderTitleNext;
+    sliderTitleNext = tempTitle;
     
-    // Force another reflow to ensure transform change is registered
-    requestAnimationFrame(() => {
-      // Start fade-out of active elements (keep higher opacity for minimal merge)
-      sliderImgActive.classList.add("fade-out");
-      sliderTitleActive.style.opacity = "0.85";
-      sliderTitleActive.classList.add("fade-out");
-      sliderListActive.style.opacity = "0.85";
-      sliderListActive.classList.add("fade-out");
-      
-      // Start fade-in of next elements (translateY is already animating)
-      sliderImgNext.style.opacity = "1";
-      sliderTitleNext.style.opacity = "1";
-      sliderListNext.style.opacity = "1";
-    });
+    // Swap list references
+    const tempList = sliderListActive;
+    sliderListActive = sliderListNext;
+    sliderListNext = tempList;
+    
+    // Reset classes, z-index, and opacity
+    sliderImgActive.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
+    sliderImgActive.style.zIndex = "2";
+    sliderImgActive.style.opacity = "1";
+    sliderImgNext.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
+    sliderImgNext.style.zIndex = "1";
+    sliderImgNext.style.opacity = "0";
+    
+    sliderTitleActive.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
+    sliderTitleActive.style.zIndex = "2";
+    sliderTitleActive.style.opacity = "1";
+    sliderTitleActive.style.pointerEvents = "auto";
+    sliderTitleNext.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
+    sliderTitleNext.style.zIndex = "1";
+    sliderTitleNext.style.opacity = "0";
+    sliderTitleNext.style.pointerEvents = "none";
+    
+    sliderListActive.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
+    sliderListActive.style.zIndex = "2";
+    sliderListActive.style.opacity = "1";
+    sliderListActive.style.pointerEvents = "auto";
+    sliderListNext.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
+    sliderListNext.style.zIndex = "1";
+    sliderListNext.style.opacity = "0";
+    sliderListNext.style.pointerEvents = "none";
+    
+    // Ensure proper class names
+    if (!sliderTitleActive.classList.contains("slider-title-active")) {
+      sliderTitleActive.classList.add("slider-title-active");
+    }
+    sliderTitleNext.classList.remove("slider-title-active");
+    sliderTitleNext.classList.add("slider-title-next");
+    
+    if (!sliderListActive.classList.contains("slider-list-active")) {
+      sliderListActive.classList.add("slider-list-active");
+    }
+    sliderListNext.classList.remove("slider-list-active");
+    sliderListNext.classList.add("slider-list-next");
 
-    // After transition completes, swap all elements (smooth timing)
-    setTimeout(() => {
-        // Swap image references
-        const tempImg = sliderImgActive;
-        sliderImgActive = sliderImgNext;
-        sliderImgNext = tempImg;
-        
-        // Swap title references
-        const tempTitle = sliderTitleActive;
-        sliderTitleActive = sliderTitleNext;
-        sliderTitleNext = tempTitle;
-        
-        // Swap list references
-        const tempList = sliderListActive;
-        sliderListActive = sliderListNext;
-        sliderListNext = tempList;
-        
-        // Reset image states
-        sliderImgActive.classList.remove("fade-out");
-        sliderImgActive.style.opacity = "1";
-        sliderImgActive.style.zIndex = "2";
-        sliderImgNext.style.opacity = "0";
-        sliderImgNext.style.zIndex = "1";
-        sliderImgNext.classList.add("fade-out");
-        
-        // Reset title states
-        sliderTitleActive.classList.remove("fade-out");
-        sliderTitleActive.style.opacity = "1";
-        sliderTitleActive.style.zIndex = "2";
-        sliderTitleNext.style.opacity = "0";
-        sliderTitleNext.style.zIndex = "1";
-        sliderTitleNext.classList.add("fade-out");
-        
-        // Reset list states
-        sliderListActive.classList.remove("fade-out");
-        sliderListActive.style.opacity = "1";
-        sliderListActive.style.zIndex = "2";
-        sliderListNext.style.opacity = "0";
-        sliderListNext.style.zIndex = "1";
-        sliderListNext.classList.add("fade-out");
-        
-        // Swap class names for proper styling
-        // Active element (which was next) already has slide-down/slide-up classes
-        // and lost slider-title-next during animation, so just ensure it has active class
-        if (!sliderTitleActive.classList.contains("slider-title-active")) {
-          sliderTitleActive.classList.add("slider-title-active");
-        }
-        // Next element (which was active) needs to be reset
-        sliderTitleNext.classList.remove("slider-title-active");
-        sliderTitleNext.classList.add("slider-title-next");
-        sliderTitleNext.classList.remove("slide-down", "slide-up");
-        
-        if (!sliderListActive.classList.contains("slider-list-active")) {
-          sliderListActive.classList.add("slider-list-active");
-        }
-        sliderListNext.classList.remove("slider-list-active");
-        sliderListNext.classList.add("slider-list-next");
-        sliderListNext.classList.remove("slide-down", "slide-up");
-
-      isTransitioning = false;
-    }, 400); // Match opacity transition duration (0.4s) - smooth transition
-  });
+    isTransitioning = false;
+  }, 500); // Match transition duration
 }
 
 // ============================================

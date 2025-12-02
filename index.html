@@ -138,7 +138,7 @@
           </button>
 
           <!-- Rounded Circle SVG  -->
-          <p class="absolute cursor-pointer left-1/2 -translate-x-1/2 top-[80%] crcleBtn">
+          <!-- <p class="absolute cursor-pointer left-1/2 -translate-x-1/2 top-[80%] crcleBtn">
             <svg
               width="56"
               height="69"
@@ -170,13 +170,72 @@
                 stroke-linejoin="round"
               />
             </svg>
-          </p>
+          </p> -->
 
+          <div
+            id="circleBtnContainer"
+            class="w-[48px] h-[48px] border-[1px] border-[#111111] flex justify-center items-center rounded-full absolute cursor-pointer left-1/2 -translate-x-1/2 top-[80%]"
+          >
+            <button id="circleToggleBtn" class="h-[90%] w-[90%] bg-black flex justify-center items-center rounded-full">
+              <p>
+                <svg
+                  id="circleIcon"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="plus-icon"
+                >
+                  <path
+                    d="M10 4.16669V15.8334"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M4.16667 10H15.8333"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <svg
+                  id="circleIconCross"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="cross-icon hidden"
+                >
+                  <path
+                    d="M5 5L15 15"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M15 5L5 15"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </p>
+            </button>
+          </div>
           <!-- Rounded Circle Links  -->
           <div
-            class="absolute left-1/2 top-[70%] w-[217px] h-[119px] bg-white rounded-[8px] flex flex-col justify-center hidden items-center z-50 shadow-lg py-2 crclLinks"
+            class="absolute left-1/2 top-[62%] w-[217px] h-[119px] bg-white rounded-[8px] flex flex-col justify-center hidden items-center z-50 shadow-lg py-2 crclLinks"
           >
-            <div class="flex items-center w-full h-full px-4 gap-3 border-b-[1px] border-[#EEEEEE] hover:bg-gray-50 transition-colors cursor-pointer">
+            <div
+              class="flex items-center w-full h-full px-4 gap-3 border-b-[1px] border-[#EEEEEE] hover:bg-gray-50 transition-colors cursor-pointer"
+            >
               <div class="flex items-center justify-center">
                 <svg
                   width="22"
@@ -201,7 +260,9 @@
                 Schedule a call
               </p>
             </div>
-            <div class="flex items-center w-full h-full px-4 gap-3 hover:bg-gray-50 transition-colors cursor-pointer">
+            <div
+              class="flex items-center w-full h-full px-4 gap-3 hover:bg-gray-50 transition-colors cursor-pointer"
+            >
               <div class="flex items-center justify-center">
                 <svg
                   width="21"
@@ -287,7 +348,9 @@
         >
           <li class="cursor-pointer"><a href="#home">Home</a></li>
           <li class="cursor-pointer"><a href="#highlights">Highlights</a></li>
-          <li class="cursor-pointer"><a href="#connectivity">Connectivity</a></li>
+          <li class="cursor-pointer">
+            <a href="#connectivity">Connectivity</a>
+          </li>
           <li class="cursor-pointer"><a href="#floorPlan">Floor Plan</a></li>
           <li class="cursor-pointer"><a href="#amenities">Amenities</a></li>
           <li class="cursor-pointer"><a href="#contactUs">Contact Us</a></li>
@@ -378,7 +441,10 @@
           </div>
 
           <!-- Right Side Image Container  -->
-          <div id="s2-image-container" class="w-full lg:w-[441px] h-auto xl:h-[503px]">
+          <div
+            id="s2-image-container"
+            class="w-full lg:w-[441px] h-auto xl:h-[503px]"
+          >
             <img
               src="/img/s2/ash-s2-i1.png"
               alt="ash-s2-i1"
@@ -446,7 +512,7 @@
         <!-- Bottom Image Container  -->
         <div id="s3-image-container" class="w-full h-auto xl:h-[304px]">
           <img
-            src="img/s3/ash-s3-i1.png"
+            src="img/ash-sun.png"
             alt="ash-s3-i1"
             class="w-full h-full object-cover"
           />
@@ -459,10 +525,10 @@
       >
         <!-- Centered Align Container  -->
         <div
-          class="w-full xl:w-[80%] flex flex-col xl:flex-row justify-between items-center px-4 lg:px-0 gap-8 lg:gap-0"
+          class="w-full xl:w-[80%] flex flex-col xl:flex-row justify-between items-center px-4 lg:px-0 gap-8 lg:gap-0 lg:pb-10"
         >
           <h2
-            class="uppercase font-[600] text-[24px] lg:text-[36px] block md:hidden"
+            class="uppercase font-[600] text-[24px] lg:text-[36px] block md:hidden pft"
             style="font-family: 'MonsterSemiBold'"
           >
             Project <span class="text-[#AC1F0F]">overview</span>
@@ -609,13 +675,13 @@
           <!-- Right Side Container  -->
           <div
             id="s4-right-container"
-            class="w-full lg:w-[652px] block md:hidden xl:block flex flex-col gap-10 lg:mt-20 mt-0"
+            class="w-full lg:w-[652px] block md:hidden xl:block flex flex-col gap-10 lg:mt-24 mt-0"
           >
             <!-- Top Text Container  -->
             <div class="hidden md:block">
               <h2
                 id="s4-title-desktop"
-                class="uppercase font-[600] text-[24px] lg:text-[36px]"
+                class="uppercase font-[600] text-[24px] lg:text-[36px] mb-12"
                 style="font-family: 'MonsterSemiBold'"
               >
                 Project <span class="text-[#AC1F0F]">overview</span>
@@ -670,12 +736,24 @@
 
             <!-- Right Side Div  -->
             <div class="flex justify-center items-center gap-4 hidden md:flex">
-           <div class="w-[80px] h-[80px] rounded-full cursor-pointer bg-[#EFEFEF] border-[1px] border-[#D9D9D9] sliderLeftBtn">
-            <img src="/img/lft-btn.png" alt="lft-btn" class="w-full h-full object-cover">
-           </div>
-           <div class="w-[80px] h-[80px] rounded-full cursor-pointer bg-[#EFEFEF] border-[1px] border-[#D9D9D9] sliderRightBtn">
-            <img src="/img/rght-btn.png" alt="rght-btn" class="w-full h-full object-cover">
-           </div>
+              <div
+                class="w-[80px] h-[80px] rounded-full cursor-pointer bg-[#EFEFEF] border-[1px] border-[#D9D9D9] sliderLeftBtn"
+              >
+                <img
+                  src="/img/lft-btn.png"
+                  alt="lft-btn"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div
+                class="w-[80px] h-[80px] rounded-full cursor-pointer bg-[#EFEFEF] border-[1px] border-[#D9D9D9] sliderRightBtn"
+              >
+                <img
+                  src="/img/rght-btn.png"
+                  alt="rght-btn"
+                  class="w-full h-full object-cover"
+                />
+              </div>
             </div>
 
             <!-- Mobile Side Div  -->
@@ -704,10 +782,10 @@
 
           <!-- Bottom Container   -->
           <div
-            class="flex flex-col lg:flex-row justify-center gap-8 lg:gap-[50px] "
+            class="flex flex-col lg:flex-row justify-center gap-8 lg:gap-[50px]"
           >
             <div
-              class="w-full lg:w-[687px] h-[391px] rounded-[20px] md:rounded-none overflow-hidden md:h-[250px] lg:h-[391px] sliderImg "
+              class="w-full lg:w-[687px] h-[391px] rounded-[20px] md:rounded-none overflow-hidden md:h-[250px] lg:h-[391px] sliderImg"
             >
               <img
                 src="./img/s5/ash-s5-i1.png"
@@ -734,8 +812,10 @@
               >
                 Healthcare
               </h3>
-              <div class="flex flex-col gap-4 mt-4 sliderList slider-list-active">
-                <div class="flex gap-2 items-center ">
+              <div
+                class="flex flex-col gap-4 mt-4 sliderList slider-list-active"
+              >
+                <div class="flex gap-2 items-center">
                   <img
                     src="img/pointer.png"
                     alt="check-circle"
@@ -748,7 +828,7 @@
                     Yatharth Super Speciality Hospital
                   </p>
                 </div>
-                <div class="flex gap-2 items-center ">
+                <div class="flex gap-2 items-center">
                   <img
                     src="img/pointer.png"
                     alt="check-circle"
@@ -761,7 +841,7 @@
                     Numed Super Speciality Hospital
                   </p>
                 </div>
-                <div class="flex gap-2 items-center ">
+                <div class="flex gap-2 items-center">
                   <img
                     src="img/pointer.png"
                     alt="check-circle"
@@ -774,7 +854,7 @@
                     Nix Multi-Speciality Hospital
                   </p>
                 </div>
-                <div class="flex gap-2 items-center ">
+                <div class="flex gap-2 items-center">
                   <img
                     src="img/pointer.png"
                     alt="check-circle"
@@ -787,7 +867,7 @@
                     Rudra Fracture Hospital & Diagnostics
                   </p>
                 </div>
-                <div class="flex gap-2 items-center ">
+                <div class="flex gap-2 items-center">
                   <img
                     src="img/pointer.png"
                     alt="check-circle"
@@ -802,7 +882,7 @@
                 </div>
               </div>
               <div class="flex flex-col gap-4 mt-4 sliderList slider-list-next">
-                <div class="flex gap-2 items-center ">
+                <div class="flex gap-2 items-center">
                   <img
                     src="img/pointer.png"
                     alt="check-circle"
@@ -883,7 +963,7 @@
 
             <div
               id="s6-card-2"
-              class="w-full lg:w-[401px] h-[200px] lg:h-[220px] bg-white text-black flex flex-col justify-center items-center text-center px-4 border-t-[4px] border-t-[#DD991B]
+              class="w-full lg:w-[401px] h-[200px] lg:h-[220px] bg-white text-black flex flex-col justify-center items-center text-center px-4 border-t-[4px] border-t-[#DD991B]"
             >
               <p
                 class="font-[400] text-[14px] lg:text-[18px]"
@@ -928,11 +1008,14 @@
 
       <!-- Section 7 Is Starting From Here   -->
       <section
-      id="amenities"
+        id="amenities"
         class="w-screen min-h-[593px] flex flex-col justify-center items-center gap-8 lg:gap-12 py-8"
       >
         <!-- Center Align 1st Container  -->
-        <div id="s7-header" class="flex flex-col justify-center items-center text-center px-4">
+        <div
+          id="s7-header"
+          class="flex flex-col justify-center items-center text-center px-4"
+        >
           <p
             id="s7-label"
             class="font-[500] text-[16px] lg:text-[20px] uppercase text-[#22202199]"
@@ -995,7 +1078,7 @@
               class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
               style="font-family: 'MonsterMedium'"
             >
-            Landscape Garden
+              Landscape Garden
             </p>
           </div>
           <div
@@ -1010,7 +1093,7 @@
               class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
               style="font-family: 'MonsterMedium'"
             >
-            Jogging Track
+              Jogging Track
             </p>
           </div>
           <div
@@ -1025,7 +1108,7 @@
               class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
               style="font-family: 'MonsterMedium'"
             >
-            Indoor Games
+              Indoor Games
             </p>
           </div>
           <div
@@ -1040,7 +1123,7 @@
               class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
               style="font-family: 'MonsterMedium'"
             >
-            Car Parking
+              Car Parking
             </p>
           </div>
           <div
@@ -1055,7 +1138,8 @@
               class="font-[500] text-center text-[12px] lg:text-[16px] capitalize text-[#000000]"
               style="font-family: 'MonsterMedium'"
             >
-            Gated <br> Community
+              Gated <br />
+              Community
             </p>
           </div>
           <div
@@ -1070,7 +1154,7 @@
               class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
               style="font-family: 'MonsterMedium'"
             >
-            Paved Compound
+              Paved Compound
             </p>
           </div>
           <div
@@ -1085,7 +1169,7 @@
               class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
               style="font-family: 'MonsterMedium'"
             >
-            Community Hall
+              Community Hall
             </p>
           </div>
           <div
@@ -1100,7 +1184,7 @@
               class="font-[500] text-[12px] lg:text-[16px] capitalize text-[#000000]"
               style="font-family: 'MonsterMedium'"
             >
-            Solar Lighting
+              Solar Lighting
             </p>
           </div>
         </div>
@@ -1146,14 +1230,14 @@
               class="w-full lg:w-[606px] h-auto lg:h-[505px] bg-[#FFFFFF] shadow-[0_1px_16px_6px_rgba(218, 218, 218, 0.25)] flex justify-center items-center p-4 xl:p-0"
             >
               <form
-                class="flex flex-col lg:gap-8 gap-2 justify-center items-center w-full p-5 "
+                class="flex flex-col lg:gap-8 gap-2 justify-center items-center w-full p-5"
               >
                 <h5
                   class="font-[600] text-[22px] capitalize"
                   style="font-family: 'MonsterSemiBold'"
                 >
                   Contact Us Now!
-        </h5>
+                </h5>
                 <div
                   class="w-full flex flex-col lg:flex-row justify-between lg:justify-center gap-2"
                 >
