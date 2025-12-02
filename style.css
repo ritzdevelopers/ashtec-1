@@ -107,9 +107,31 @@ input[type="submit"] {
   touch-action: manipulation;
 }
 
-/* Smooth scrolling */
+/* Smooth scrolling - Lenis handles this, but keeping for fallback */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Lenis will handle smooth scrolling */
+}
+
+/* Ensure Lenis smooth scroll works properly */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 /* Offset for fixed navbar when scrolling */
@@ -367,6 +389,298 @@ body.menu-open {
   }
 }
 
+/* Performance optimizations for scroll animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optimize animations on mobile for better performance */
+@media (max-width: 768px) {
+  /* Reduce animation intensity on mobile */
+  .sliderImg,
+  .sliderTitle,
+  .sliderList {
+    will-change: auto;
+  }
+}
+
+/* ============================================
+   CONTACT MODAL STYLES
+   ============================================ */
+
+.contact-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.contact-modal-overlay:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+}
+
+.contact-modal-container {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-modal-overlay:not(.hidden) .contact-modal-container {
+  transform: scale(1) translateY(0);
+}
+
+.contact-modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #000000;
+}
+
+.contact-modal-close-btn:hover {
+  background: #000000;
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+.contact-modal-content {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  max-height: 90vh;
+}
+
+.contact-modal-image-container {
+  width: 50%;
+  height: 100%;
+  min-height: 600px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.contact-modal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.contact-modal-form-container {
+  width: 50%;
+  padding: 60px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.contact-modal-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #111111;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
+.contact-modal-subtitle {
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.contact-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-modal-form-group {
+  width: 100%;
+}
+
+.contact-modal-input,
+.contact-modal-textarea {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid #D1D1D1;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: 'MonsterRegular', sans-serif;
+  color: #111111;
+  background: #ffffff;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.contact-modal-input:focus,
+.contact-modal-textarea:focus {
+  border-color: #EAB91F;
+  box-shadow: 0 0 0 3px rgba(234, 185, 31, 0.1);
+}
+
+.contact-modal-input::placeholder,
+.contact-modal-textarea::placeholder {
+  color: #999999;
+}
+
+.contact-modal-textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: 'MonsterRegular', sans-serif;
+}
+
+.contact-modal-submit-btn {
+  width: 100%;
+  max-width: 200px;
+  height: 50px;
+  background: linear-gradient(to right, #DA8712, #EAB91F);
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  margin-top: 10px;
+}
+
+.contact-modal-submit-btn:hover {
+  background: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .contact-modal-form-container {
+    padding: 40px 35px;
+  }
+
+  .contact-modal-title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-modal-overlay {
+    padding: 10px;
+  }
+
+  .contact-modal-container {
+    max-height: 95vh;
+    border-radius: 16px;
+  }
+
+  .contact-modal-content {
+    flex-direction: column;
+    max-height: 95vh;
+  }
+
+  .contact-modal-image-container {
+    width: 100%;
+    height: 250px;
+    min-height: 250px;
+  }
+
+  .contact-modal-form-container {
+    width: 100%;
+    padding: 30px 25px;
+    max-height: calc(95vh - 250px);
+    overflow-y: auto;
+  }
+
+  .contact-modal-title {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .contact-modal-subtitle {
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+
+  .contact-modal-form {
+    gap: 16px;
+  }
+
+  .contact-modal-input,
+  .contact-modal-textarea {
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+
+  .contact-modal-submit-btn {
+    max-width: 100%;
+    height: 48px;
+  }
+
+  .contact-modal-close-btn {
+    top: 15px;
+    right: 15px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-modal-image-container {
+    height: 200px;
+    min-height: 200px;
+  }
+
+  .contact-modal-form-container {
+    padding: 25px 20px;
+    max-height: calc(95vh - 200px);
+  }
+
+  .contact-modal-title {
+    font-size: 22px;
+  }
+
+  .contact-modal-subtitle {
+    font-size: 13px;
+    margin-bottom: 25px;
+  }
+}
+
 /* Button Hover Effect Class */
 .btn-hover {
   transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
@@ -407,6 +721,27 @@ body.menu-open {
 
 /* Ensure text and icons inside button change color on hover */
 .btn-hover2:hover * {
+  color: #000000 !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+
+
+
+.btn-hover3 {
+  transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
+}
+
+.btn-hover3:hover {
+ border: 1px solid #000000 !important;
+  color: #000000 !important;
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+/* Ensure text and icons inside button change color on hover */
+.btn-hover3:hover * {
   color: #000000 !important;
   fill: #ffffff !important;
   stroke: #ffffff !important;

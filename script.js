@@ -16,6 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
     void mobileMenu.offsetWidth;
     mobileMenu.classList.add("menu-open");
     body.style.overflow = "hidden"; // Prevent body scroll when menu is open
+    
+    // Stop Lenis smooth scroll when menu is open
+    if (typeof lenis !== 'undefined' && lenis) {
+      lenis.stop();
+    }
 
     // Add animation classes to menu items with delay (including logo)
     menuItems.forEach((item, index) => {
@@ -39,6 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       mobileMenu.classList.add("hidden");
       body.style.overflow = ""; // Restore body scroll
+      
+      // Resume Lenis smooth scroll when menu is closed
+      if (typeof lenis !== 'undefined' && lenis) {
+        lenis.start();
+      }
     }, 300);
   }
 
@@ -68,15 +78,24 @@ document.addEventListener("DOMContentLoaded", () => {
         const href = link.getAttribute("href");
         if (href && href.startsWith("#")) {
           closeMenu();
-          // Smooth scroll to section
+          // Smooth scroll to section using Lenis (if available) or native scroll
           setTimeout(() => {
             const targetId = href.substring(1);
             const targetElement = document.getElementById(targetId);
             if (targetElement) {
-              targetElement.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
+              // Check if lenis is available (it's a global variable)
+              if (typeof lenis !== 'undefined' && lenis) {
+                lenis.scrollTo(targetElement, {
+                  offset: -80,
+                  duration: 1.5,
+                  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                });
+              } else {
+                targetElement.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
             }
           }, 300);
         }
@@ -443,3 +462,709 @@ function updateSlider(direction) {
     }, 250); // Match opacity transition duration (0.2s) - very quick, light merge effect like shadow
   });
 }
+
+// ============================================
+// LENIS SMOOTH SCROLL & SCROLLTRIGGER ANIMATIONS
+// ============================================
+
+// Initialize Lenis Smooth Scroll (global variable for access across functions)
+let lenis;
+
+function initLenis() {
+  if (typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    // Sync Lenis with ScrollTrigger
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Update ScrollTrigger on scroll
+    lenis.on('scroll', ScrollTrigger.update);
+
+    // ScrollTrigger should use Lenis scroll proxy
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value) {
+        if (arguments.length) {
+          lenis.scrollTo(value, { immediate: true });
+        }
+        return lenis.scroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+      pinType: document.body.style.transform ? 'transform' : 'fixed',
+    });
+
+    // Refresh ScrollTrigger after Lenis is ready
+    ScrollTrigger.addEventListener('refresh', () => {
+      lenis.resize();
+    });
+
+    ScrollTrigger.refresh();
+  }
+}
+
+// Initialize animations when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Wait a bit for Lenis to load
+  setTimeout(() => {
+    initLenis();
+    initScrollAnimations();
+  }, 100);
+});
+
+// Luxury Scroll Animations
+function initScrollAnimations() {
+  // Set default animation properties for all scroll animations
+  gsap.defaults({
+    ease: 'power3.out',
+    duration: 1.2,
+  });
+
+  // ============================================
+  // SECTION 2 - Hero Content Animation
+  // ============================================
+  const s2Content = document.querySelector('.s1-right-container');
+  if (s2Content) {
+    gsap.fromTo(
+      s2Content,
+      {
+        scale: 1.1,
+        opacity: 0,
+      },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 1.5,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: s2Content,
+          start: 'top 95%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse',
+        },
+      }
+    );
+  }
+
+  // ============================================
+  // SECTION 2 - Pre-launch Text Animation
+  // ============================================
+  const s2Texts = document.querySelectorAll('#home ~ section p, #home ~ section h1, #home ~ section button');
+  if (s2Texts.length > 0) {
+    gsap.utils.toArray(s2Texts).forEach((text, index) => {
+      gsap.fromTo(
+        text,
+        {
+          y: 60,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          delay: index * 0.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: text,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    });
+  }
+
+  // ============================================
+  // SECTION 3 - Highlights Section
+  // ============================================
+  const highlightsSection = document.querySelector('#highlights');
+  if (highlightsSection) {
+    const highlightsContent = highlightsSection.querySelectorAll('h2, p, button');
+    gsap.utils.toArray(highlightsContent).forEach((el, index) => {
+      gsap.fromTo(
+        el,
+        {
+          y: 80,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          delay: index * 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: highlightsSection,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    });
+
+    // Parallax effect for bottom image
+    const highlightsImg = highlightsSection.querySelector('img');
+    if (highlightsImg) {
+      gsap.to(highlightsImg, {
+        y: -100,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: highlightsImg,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
+        },
+      });
+    }
+  }
+
+  // ============================================
+  // SECTION 4 - Project Overview
+  // ============================================
+  const s4Section = document.querySelector('.s4');
+  if (s4Section) {
+    // Left side image animation
+    const s4LeftImg = s4Section.querySelector('img[alt="ash-s4-i1"]');
+    if (s4LeftImg) {
+      gsap.fromTo(
+        s4LeftImg,
+        {
+          scale: 1.15,
+          opacity: 0,
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 1.5,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: s4LeftImg,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+
+    // Check list items stagger animation
+    const checkItems = s4Section.querySelectorAll('.flex.gap-2.items-center');
+    if (checkItems.length > 0) {
+      gsap.fromTo(
+        checkItems,
+        {
+          x: -50,
+          opacity: 0,
+        },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: s4Section,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+
+    // Right side image animation
+    const s4RightImg = s4Section.querySelector('img[alt=""]');
+    if (s4RightImg) {
+      gsap.fromTo(
+        s4RightImg,
+        {
+          scale: 1.1,
+          opacity: 0,
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 1.3,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: s4RightImg,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+  }
+
+  // ============================================
+  // SECTION 5 - Connectivity Section
+  // ============================================
+  const connectivitySection = document.querySelector('#connectivity');
+  if (connectivitySection) {
+    const connectivityContent = connectivitySection.querySelectorAll('h2, p');
+    gsap.utils.toArray(connectivityContent).forEach((el, index) => {
+      gsap.fromTo(
+        el,
+        {
+          y: 60,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          delay: index * 0.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: connectivitySection,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    });
+
+    // Slider image parallax
+    const sliderImg = connectivitySection.querySelector('.sliderImg');
+    if (sliderImg) {
+      gsap.to(sliderImg, {
+        y: -80,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sliderImg,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5,
+        },
+      });
+    }
+  }
+
+  // ============================================
+  // SECTION 6 - Floor Plan
+  // ============================================
+  const floorPlanSection = document.querySelector('#floorPlan');
+  if (floorPlanSection) {
+    const floorPlanCards = floorPlanSection.querySelectorAll('.bg-white');
+    if (floorPlanCards.length > 0) {
+      gsap.fromTo(
+        floorPlanCards,
+        {
+          y: 100,
+          opacity: 0,
+          scale: 0.9,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1.2,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: floorPlanSection,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+
+    const floorPlanTitle = floorPlanSection.querySelector('h2');
+    if (floorPlanTitle) {
+      gsap.fromTo(
+        floorPlanTitle,
+        {
+          y: 60,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: floorPlanTitle,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+  }
+
+  // ============================================
+  // SECTION 7 - Amenities
+  // ============================================
+  const amenitiesSection = document.querySelector('#amenities');
+  if (amenitiesSection) {
+    // Title animation
+    const amenitiesTitle = amenitiesSection.querySelector('h2');
+    if (amenitiesTitle) {
+      gsap.fromTo(
+        amenitiesTitle,
+        {
+          y: 60,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: amenitiesTitle,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+
+    // Amenities cards stagger animation
+    const amenitiesCards = amenitiesSection.querySelectorAll('.shadow-\\[0_4px_16px_0_rgba\\(0\\,0\\,0\\,0\\.1\\)\\]');
+    if (amenitiesCards.length > 0) {
+      gsap.fromTo(
+        amenitiesCards,
+        {
+          y: 80,
+          opacity: 0,
+          scale: 0.8,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.9,
+          stagger: {
+            amount: 0.8,
+            from: 'start',
+          },
+          ease: 'back.out(1.2)',
+          scrollTrigger: {
+            trigger: amenitiesSection,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+  }
+
+  // ============================================
+  // SECTION 8 - Contact Us
+  // ============================================
+  const contactSection = document.querySelector('#contactUs');
+  if (contactSection) {
+    // Title animation
+    const contactTitle = contactSection.querySelector('h2');
+    if (contactTitle) {
+      gsap.fromTo(
+        contactTitle,
+        {
+          y: 60,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: contactTitle,
+            start: 'top 100%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+
+    // Form animation
+    // const contactForm = contactSection.querySelector('form');
+    // if (contactForm) {
+    //   gsap.fromTo(
+    //     contactForm,
+    //     {
+    //       x: -80,
+    //       opacity: 0,
+    //     },
+    //     {
+    //       x: 0,
+    //       opacity: 1,
+    //       duration: 1.2,
+    //       ease: 'power3.out',
+    //       scrollTrigger: {
+    //         trigger: contactForm,
+    //         start: 'top 100%',
+    //         toggleActions: 'play none none reverse',
+    //       },
+    //     }
+    //   );
+    // }
+
+    // Map/image animation
+    const contactMap = contactSection.querySelector('img[alt="ash-map"]');
+    if (contactMap) {
+      gsap.fromTo(
+        contactMap,
+        {
+          x: 80,
+          opacity: 0,
+          scale: 1.1,
+        },
+        {
+          x: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: contactMap,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+  }
+
+  // ============================================
+  // FOOTER - About Section
+  // ============================================
+  const footerSection = document.querySelector('.footer');
+  if (footerSection) {
+    const footerContent = footerSection.querySelectorAll('h2, p');
+    gsap.utils.toArray(footerContent).forEach((el, index) => {
+      gsap.fromTo(
+        el,
+        {
+          y: 60,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          delay: index * 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: footerSection,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    });
+  }
+
+  // ============================================
+  // SMOOTH ANCHOR LINKS WITH LENIS
+  // ============================================
+  // Only apply to non-mobile menu links (mobile menu links are handled separately)
+  document.querySelectorAll('nav a[href^="#"], .btn-hover[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href && href !== '#' && lenis) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          lenis.scrollTo(target, {
+            offset: -80,
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          });
+        }
+      }
+    });
+  });
+
+  // Refresh ScrollTrigger after all animations are set
+  ScrollTrigger.refresh();
+}
+
+// ============================================
+// CONTACT MODAL FUNCTIONALITY
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('contactModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const modalForm = document.getElementById('contactModalForm');
+  const body = document.body;
+
+  // Function to open modal
+  function openModal() {
+    if (modal) {
+      modal.classList.remove('hidden');
+      body.style.overflow = 'hidden';
+      
+      // Pause Lenis when modal is open
+      if (typeof lenis !== 'undefined' && lenis) {
+        lenis.stop();
+      }
+
+      // Prevent scroll on modal container
+      const modalContainer = modal.querySelector('.contact-modal-container');
+      if (modalContainer) {
+        modalContainer.style.maxHeight = '90vh';
+      }
+    }
+  }
+
+  // Function to close modal
+  function closeModal() {
+    if (modal) {
+      modal.classList.add('hidden');
+      body.style.overflow = '';
+      
+      // Resume Lenis when modal is closed
+      if (typeof lenis !== 'undefined' && lenis) {
+        lenis.start();
+      }
+
+      // Reset form
+      if (modalForm) {
+        modalForm.reset();
+      }
+    }
+  }
+
+  // Close button event
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', closeModal);
+  }
+
+  // Close on overlay click
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+
+  // Form submission handler
+  if (modalForm) {
+    modalForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Get form data
+      const formData = {
+        name: document.getElementById('modalName').value,
+        email: document.getElementById('modalEmail').value,
+        phone: document.getElementById('modalPhone').value,
+        message: document.getElementById('modalMessage').value,
+      };
+
+      // Here you can add your form submission logic
+      console.log('Form submitted:', formData);
+      
+      // Show success message (you can customize this)
+      alert('Thank you for your inquiry! We will get back to you soon.');
+      
+      // Close modal after submission
+      closeModal();
+    });
+  }
+
+  // Add click event listeners to all trigger buttons
+  // Better approach: use text content matching and specific selectors
+  document.querySelectorAll('button, a').forEach((btn) => {
+    const btnText = btn.textContent.trim().toUpperCase();
+    
+    // Contact Us buttons (navbar and other locations)
+    if (
+      btnText === 'CONTACT US' ||
+      btnText === 'CONTACT US NOW!' ||
+      (btn.classList.contains('btn-hover2') && btnText.includes('CONTACT')) ||
+      btn.id === 'mobileContactBtn'
+    ) {
+      btn.addEventListener('click', (e) => {
+        // Prevent default for anchor links to contact section
+        if (btn.tagName === 'A' && btn.getAttribute('href') === '#contactUs') {
+          e.preventDefault();
+        }
+        openModal();
+      });
+    }
+
+    // Enquiry Now button
+    if (btnText === 'ENQUIRY NOW' || btnText.includes('ENQUIRY')) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    }
+
+    // Book Site Visit button
+    if (btnText === 'BOOK SITE VISIT' || btnText.includes('BOOK SITE')) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    }
+
+    // 2.51 CR* ONWards button (case insensitive)
+    if (btnText.includes('2.51') || btnText.includes('CR') && btnText.includes('ONWARD')) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    }
+  });
+
+  // Also handle the mobile contact button specifically
+  const mobileContactBtn = document.getElementById('mobileContactBtn');
+  if (mobileContactBtn) {
+    mobileContactBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Close mobile menu first if open
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        if (closeMenuBtn) {
+          closeMenuBtn.click();
+        }
+      }
+      setTimeout(() => {
+        openModal();
+      }, 300);
+    });
+  }
+
+  // Load random luxury property image from Unsplash
+  const modalImage = document.getElementById('modalImage');
+  if (modalImage) {
+    // You can change this URL to any Unsplash image you prefer
+    // Current: luxury real estate
+    modalImage.src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=1000&fit=crop&q=80';
+    modalImage.onerror = function() {
+      // Fallback image if Unsplash fails
+      this.src = 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=1000&fit=crop&q=80';
+    };
+  }
+});
