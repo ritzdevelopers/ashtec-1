@@ -264,6 +264,8 @@ const sliderData = [
 ];
 
 let sliderIndex = 0;
+let sliderItemActive;
+let sliderItemNext;
 let sliderImgActive;
 let sliderImgNext;
 let sliderTitleActive;
@@ -276,12 +278,14 @@ let isTransitioning = false;
 
 // Initialize slider when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
-  sliderImgActive = document.querySelector(".sliderImg .slider-img-active");
-  sliderImgNext = document.querySelector(".sliderImg .slider-img-next");
-  sliderTitleActive = document.querySelector(".slider-title-active");
-  sliderTitleNext = document.querySelector(".slider-title-next");
-  sliderListActive = document.querySelector(".slider-list-active");
-  sliderListNext = document.querySelector(".slider-list-next");
+  sliderItemActive = document.querySelector(".slider-item-active");
+  sliderItemNext = document.querySelector(".slider-item-next");
+  sliderImgActive = sliderItemActive?.querySelector(".slider-img-active");
+  sliderImgNext = sliderItemNext?.querySelector(".slider-img-next");
+  sliderTitleActive = sliderItemActive?.querySelector(".slider-title-active");
+  sliderTitleNext = sliderItemNext?.querySelector(".slider-title-next");
+  sliderListActive = sliderItemActive?.querySelector(".slider-list-active");
+  sliderListNext = sliderItemNext?.querySelector(".slider-list-next");
   sliderLeftBtn = document.querySelector(".sliderLeftBtn");
   sliderRightBtn = document.querySelector(".sliderRightBtn");
 
@@ -300,7 +304,20 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function updateSlider(direction) {
-  // Check if elements exist
+  // Check if slider items exist
+  if (!sliderItemActive || !sliderItemNext) {
+    return;
+  }
+  
+  // Get current element references (they may have changed after previous swap)
+  sliderImgActive = sliderItemActive.querySelector(".slider-img-active");
+  sliderImgNext = sliderItemNext.querySelector(".slider-img-next");
+  sliderTitleActive = sliderItemActive.querySelector(".slider-title-active");
+  sliderTitleNext = sliderItemNext.querySelector(".slider-title-next");
+  sliderListActive = sliderItemActive.querySelector(".slider-list-active");
+  sliderListNext = sliderItemNext.querySelector(".slider-list-next");
+  
+  // Check if all elements exist
   if (!sliderImgActive || !sliderImgNext || !sliderTitleActive || !sliderTitleNext || !sliderListActive || !sliderListNext) {
     return;
   }
@@ -319,7 +336,7 @@ function updateSlider(direction) {
     sliderIndex = 0;
   }
 
-  // Update content in next elements
+  // Update content in next slider item
   sliderTitleNext.textContent = sliderData[sliderIndex].title;
   sliderListNext.innerHTML = sliderData[sliderIndex].list
     .map(
@@ -332,93 +349,105 @@ function updateSlider(direction) {
   // Preload image
   sliderImgNext.src = sliderData[sliderIndex].img;
   
-  // Set z-index for layering and ensure proper opacity
-  sliderImgNext.style.zIndex = "2";
-  sliderImgActive.style.zIndex = "1";
-  sliderTitleNext.style.zIndex = "2";
-  sliderTitleActive.style.zIndex = "1";
-  sliderListNext.style.zIndex = "2";
-  sliderListActive.style.zIndex = "1";
-  
   // Determine slide direction
   // direction = 1 (right button): new slides in from right, old slides out to left
   // direction = -1 (left button): new slides in from left, old slides out to right
   const slideInClass = direction === 1 ? "slide-in-right" : "slide-in-left";
   const slideOutClass = direction === 1 ? "slide-out-left" : "slide-out-right";
   
+  // Position next slider item off-screen before animation
+  if (direction === 1) {
+    // Sliding from right: position next item at 100%
+    sliderItemNext.style.transform = "translateX(100%)";
+  } else {
+    // Sliding from left: position next item at -100%
+    sliderItemNext.style.transform = "translateX(-100%)";
+  }
+  
+  // Set z-index for layering - next should be on top during transition
+  sliderItemNext.style.zIndex = "3";
+  sliderItemActive.style.zIndex = "2";
+  
   // Remove any previous animation classes
-  sliderImgActive.classList.remove("slide-out-left", "slide-out-right");
-  sliderImgNext.classList.remove("slide-in-left", "slide-in-right");
-  sliderTitleActive.classList.remove("slide-out-left", "slide-out-right");
-  sliderTitleNext.classList.remove("slide-in-left", "slide-in-right");
-  sliderListActive.classList.remove("slide-out-left", "slide-out-right");
-  sliderListNext.classList.remove("slide-in-left", "slide-in-right");
+  sliderItemActive.classList.remove("slide-out-left", "slide-out-right");
+  sliderItemNext.classList.remove("slide-in-left", "slide-in-right");
   
-  // Apply slide-out to active elements
-  sliderImgActive.classList.add(slideOutClass);
-  sliderTitleActive.classList.add(slideOutClass);
-  sliderListActive.classList.add(slideOutClass);
+  // Apply slide-out to active item
+  sliderItemActive.classList.add(slideOutClass);
   
-  // Apply slide-in to next elements
-  sliderImgNext.classList.add(slideInClass);
-  sliderTitleNext.classList.add(slideInClass);
-  sliderListNext.classList.add(slideInClass);
+  // Apply slide-in to next item
+  sliderItemNext.classList.add(slideInClass);
   
-  // After transition completes, swap all elements
+  // After transition completes, swap slider items
   setTimeout(() => {
-    // Swap image references
-    const tempImg = sliderImgActive;
-    sliderImgActive = sliderImgNext;
-    sliderImgNext = tempImg;
+    // Get current image, title, and list elements before swapping
+    const currentImgActive = sliderItemActive.querySelector("img");
+    const currentImgNext = sliderItemNext.querySelector("img");
+    const currentTitleActive = sliderItemActive.querySelector(".sliderTitle");
+    const currentTitleNext = sliderItemNext.querySelector(".sliderTitle");
+    const currentListActive = sliderItemActive.querySelector(".sliderList");
+    const currentListNext = sliderItemNext.querySelector(".sliderList");
     
-    // Swap title references
-    const tempTitle = sliderTitleActive;
-    sliderTitleActive = sliderTitleNext;
-    sliderTitleNext = tempTitle;
-    
-    // Swap list references
-    const tempList = sliderListActive;
-    sliderListActive = sliderListNext;
-    sliderListNext = tempList;
-    
-    // Reset classes, z-index, and opacity
-    sliderImgActive.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
-    sliderImgActive.style.zIndex = "2";
-    sliderImgActive.style.opacity = "1";
-    sliderImgNext.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
-    sliderImgNext.style.zIndex = "1";
-    sliderImgNext.style.opacity = "0";
-    
-    sliderTitleActive.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
-    sliderTitleActive.style.zIndex = "2";
-    sliderTitleActive.style.opacity = "1";
-    sliderTitleActive.style.pointerEvents = "auto";
-    sliderTitleNext.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
-    sliderTitleNext.style.zIndex = "1";
-    sliderTitleNext.style.opacity = "0";
-    sliderTitleNext.style.pointerEvents = "none";
-    
-    sliderListActive.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
-    sliderListActive.style.zIndex = "2";
-    sliderListActive.style.opacity = "1";
-    sliderListActive.style.pointerEvents = "auto";
-    sliderListNext.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
-    sliderListNext.style.zIndex = "1";
-    sliderListNext.style.opacity = "0";
-    sliderListNext.style.pointerEvents = "none";
-    
-    // Ensure proper class names
-    if (!sliderTitleActive.classList.contains("slider-title-active")) {
-      sliderTitleActive.classList.add("slider-title-active");
+    // Swap class names on images
+    if (currentImgActive) {
+      currentImgActive.classList.remove("slider-img-active");
+      currentImgActive.classList.add("slider-img-next");
     }
-    sliderTitleNext.classList.remove("slider-title-active");
-    sliderTitleNext.classList.add("slider-title-next");
-    
-    if (!sliderListActive.classList.contains("slider-list-active")) {
-      sliderListActive.classList.add("slider-list-active");
+    if (currentImgNext) {
+      currentImgNext.classList.remove("slider-img-next");
+      currentImgNext.classList.add("slider-img-active");
     }
-    sliderListNext.classList.remove("slider-list-active");
-    sliderListNext.classList.add("slider-list-next");
+    
+    // Swap class names on titles
+    if (currentTitleActive) {
+      currentTitleActive.classList.remove("slider-title-active");
+      currentTitleActive.classList.add("slider-title-next");
+    }
+    if (currentTitleNext) {
+      currentTitleNext.classList.remove("slider-title-next");
+      currentTitleNext.classList.add("slider-title-active");
+    }
+    
+    // Swap class names on lists
+    if (currentListActive) {
+      currentListActive.classList.remove("slider-list-active");
+      currentListActive.classList.add("slider-list-next");
+    }
+    if (currentListNext) {
+      currentListNext.classList.remove("slider-list-next");
+      currentListNext.classList.add("slider-list-active");
+    }
+    
+    // Swap slider item references
+    const tempItem = sliderItemActive;
+    sliderItemActive = sliderItemNext;
+    sliderItemNext = tempItem;
+    
+    // Update element references from new active item
+    sliderImgActive = sliderItemActive.querySelector(".slider-img-active");
+    sliderImgNext = sliderItemNext.querySelector(".slider-img-next");
+    sliderTitleActive = sliderItemActive.querySelector(".slider-title-active");
+    sliderTitleNext = sliderItemNext.querySelector(".slider-title-next");
+    sliderListActive = sliderItemActive.querySelector(".slider-list-active");
+    sliderListNext = sliderItemNext.querySelector(".slider-list-next");
+    
+    // Reset classes and transform on slider items
+    sliderItemActive.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
+    sliderItemActive.style.zIndex = "2";
+    sliderItemActive.style.transform = "translateX(0)";
+    sliderItemActive.style.position = "relative";
+    
+    sliderItemNext.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
+    sliderItemNext.style.zIndex = "1";
+    sliderItemNext.style.transform = "translateX(100%)";
+    sliderItemNext.style.position = "absolute";
+    
+    // Swap class names on slider items
+    sliderItemActive.classList.remove("slider-item-next");
+    sliderItemActive.classList.add("slider-item-active");
+    
+    sliderItemNext.classList.remove("slider-item-active");
+    sliderItemNext.classList.add("slider-item-next");
 
     isTransitioning = false;
   }, 500); // Match transition duration
@@ -641,34 +670,34 @@ function initScrollAnimations() {
   // ============================================
   // SECTION 5 - Connectivity Section
   // ============================================
-  const s5Title = document.getElementById('s5-title');
-  const s5Subtitle = document.getElementById('s5-subtitle');
-  const sliderImg = document.querySelector('.sliderImg');
+  // const s5Title = document.getElementById('s5-title');
+  // const s5Subtitle = document.getElementById('s5-subtitle');
+  // const sliderImg = document.querySelector('.sliderImg');
 
-  if (s5Title) {
-    gsap.fromTo(s5Title, { y: 40, opacity: 0 }, {
-      y: 0, opacity: 1, duration: 0.5, ease: 'power2.out',
-      scrollTrigger: { trigger: s5Title, start: 'top 95%', toggleActions: 'play none none reverse' }
-    });
-  }
-  if (s5Subtitle) {
-    gsap.fromTo(s5Subtitle, { y: 40, opacity: 0 }, {
-      y: 0, opacity: 1, duration: 0.5, delay: 0.1, ease: 'power2.out',
-      scrollTrigger: { trigger: s5Subtitle, start: 'top 95%', toggleActions: 'play none none reverse' }
-    });
-  }
-  if (sliderImg) {
-    gsap.to(sliderImg, {
-      y: -60,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: sliderImg,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1.5,
-      },
-    });
-  }
+  // if (s5Title) {
+  //   gsap.fromTo(s5Title, { y: 40, opacity: 0 }, {
+  //     y: 0, opacity: 1, duration: 0.5, ease: 'power2.out',
+  //     scrollTrigger: { trigger: s5Title, start: 'top 95%', toggleActions: 'play none none reverse' }
+  //   });
+  // }
+  // if (s5Subtitle) {
+  //   gsap.fromTo(s5Subtitle, { y: 40, opacity: 0 }, {
+  //     y: 0, opacity: 1, duration: 0.5, delay: 0.1, ease: 'power2.out',
+  //     scrollTrigger: { trigger: s5Subtitle, start: 'top 95%', toggleActions: 'play none none reverse' }
+  //   });
+  // }
+  // if (sliderImg) {
+  //   gsap.to(sliderImg, {
+  //     y: -60,
+  //     ease: 'none',
+  //     scrollTrigger: {
+  //       trigger: sliderImg,
+  //       start: 'top bottom',
+  //       end: 'bottom top',
+  //       scrub: 1.5,
+  //     },
+  //   });
+  // }
 
   // ============================================
   // SECTION 6 - Floor Plan

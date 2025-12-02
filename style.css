@@ -278,11 +278,55 @@ body.menu-open {
 }
 
 /* Slider Animations */
+.slider-item {
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.slider-item-active {
+  position: relative;
+  z-index: 2;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.slider-item-next {
+  position: absolute;
+  z-index: 1;
+  opacity: 1;
+  transform: translateX(100%);
+}
+
+.slider-item.slide-in-right {
+  transform: translateX(100%);
+  animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.slider-item.slide-in-left {
+  transform: translateX(-100%);
+  animation: slideInLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.slider-item.slide-out-left {
+  animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.slider-item.slide-out-right {
+  animation: slideOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
 .sliderImg {
   position: relative;
   min-height: 391px;
   contain: layout;
   background: transparent;
+  overflow: hidden;
+  border-radius: 20px;
   overflow: hidden;
 }
 
@@ -300,40 +344,14 @@ body.menu-open {
   transform: translateZ(0);
 }
 
-.sliderImg img.slider-img-active {
-  z-index: 2;
-  transform: translateX(0);
-  opacity: 1;
+.sliderImg img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.sliderImg img.slider-img-next {
-  z-index: 1;
-  opacity: 0;
-}
-
-/* Slide in from right */
-.sliderImg img.slide-in-right {
-  transform: translateX(100%);
-  opacity: 1;
-  animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* Slide in from left */
-.sliderImg img.slide-in-left {
-  transform: translateX(-100%);
-  opacity: 1;
-  animation: slideInLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* Slide out to left */
-.sliderImg img.slide-out-left {
-  animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* Slide out to right */
-.sliderImg img.slide-out-right {
-  animation: slideOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
 
 @keyframes slideInRight {
   from {
@@ -356,129 +374,33 @@ body.menu-open {
 @keyframes slideOutLeft {
   from {
     transform: translateX(0);
-    opacity: 1;
   }
   to {
     transform: translateX(-100%);
-    opacity: 0;
   }
 }
 
 @keyframes slideOutRight {
   from {
     transform: translateX(0);
-    opacity: 1;
   }
   to {
     transform: translateX(100%);
-    opacity: 0;
   }
+}
+
+/* Container for slider title and list should have overflow hidden */
+div.relative:has(.sliderTitle),
+div[class*="relative"]:has(.sliderTitle) {
+  overflow: hidden !important;
 }
 
 .sliderTitle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-  backface-visibility: hidden;
-  transform: translateZ(0);
-  contain: layout;
-}
-
-.sliderTitle.slider-title-active {
-  z-index: 2;
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.sliderTitle.slider-title-next {
-  z-index: 1;
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Slide in from right */
-.sliderTitle.slide-in-right {
-  transform: translateX(100%);
-  opacity: 1;
-  pointer-events: auto;
-  animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* Slide in from left */
-.sliderTitle.slide-in-left {
-  transform: translateX(-100%);
-  opacity: 1;
-  pointer-events: auto;
-  animation: slideInLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* Slide out to left */
-.sliderTitle.slide-out-left {
-  animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* Slide out to right */
-.sliderTitle.slide-out-right {
-  animation: slideOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  position: relative;
 }
 
 .sliderList {
-  position: absolute;
-  top: 50px;
-  left: 0;
-  right: 0;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-  backface-visibility: hidden;
-  transform: translateZ(0);
-  contain: layout;
-}
-
-@media (min-width: 1024px) {
-  .sliderList {
-    top: 60px;
-  }
-}
-
-.sliderList.slider-list-active {
-  z-index: 2;
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.sliderList.slider-list-next {
-  z-index: 1;
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Slide in from right */
-.sliderList.slide-in-right {
-  transform: translateX(100%);
-  opacity: 1;
-  pointer-events: auto;
-  animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* Slide in from left */
-.sliderList.slide-in-left {
-  transform: translateX(-100%);
-  opacity: 1;
-  pointer-events: auto;
-  animation: slideInLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* Slide out to left */
-.sliderList.slide-out-left {
-  animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* Slide out to right */
-.sliderList.slide-out-right {
-  animation: slideOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  position: relative;
 }
 
 @media (max-width: 400px) {
