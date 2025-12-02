@@ -683,11 +683,29 @@ body.menu-open {
 
 /* Button Hover Effect Class */
 .btn-hover {
-  transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s ease;
+  z-index: 1;
+}
+
+.btn-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.btn-hover:hover::before {
+  left: 0;
 }
 
 .btn-hover:hover {
-  background-color: #000000 !important;
   background-image: none !important;
   color: #ffffff !important;
 }
@@ -697,12 +715,15 @@ body.menu-open {
   color: #ffffff !important;
   fill: #ffffff !important;
   stroke: #ffffff !important;
+  transition: color 0.3s ease 0.2s, fill 0.3s ease 0.2s, stroke 0.3s ease 0.2s;
 }
 
 /* Smooth transition for SVG icons inside buttons */
 .btn-hover svg,
 .btn-hover img {
   transition: all 0.4s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .btn-hover:hover svg {
@@ -710,11 +731,29 @@ body.menu-open {
 }
 
 .btn-hover2 {
-  transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s ease;
+  z-index: 1;
+}
+
+.btn-hover2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.btn-hover2:hover::before {
+  left: 0;
 }
 
 .btn-hover2:hover {
-  background-color: #ffffff !important;
   background-image: none !important;
   color: #000000 !important;
 }
@@ -722,27 +761,59 @@ body.menu-open {
 /* Ensure text and icons inside button change color on hover */
 .btn-hover2:hover * {
   color: #000000 !important;
-  fill: #ffffff !important;
-  stroke: #ffffff !important;
+  fill: #000000 !important;
+  stroke: #000000 !important;
+  transition: color 0.3s ease 0.2s, fill 0.3s ease 0.2s, stroke 0.3s ease 0.2s;
+}
+
+.btn-hover2 svg,
+.btn-hover2 img {
+  position: relative;
+  z-index: 1;
 }
 
 
 
 
 .btn-hover3 {
-  transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s ease, border 0.4s ease;
+  z-index: 1;
+}
+
+.btn-hover3::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.btn-hover3:hover::before {
+  left: 0;
 }
 
 .btn-hover3:hover {
- border: 1px solid #000000 !important;
+  border: 1px solid #000000 !important;
   color: #000000 !important;
-  background-color: #ffffff !important;
   background-image: none !important;
 }
 
 /* Ensure text and icons inside button change color on hover */
 .btn-hover3:hover * {
   color: #000000 !important;
-  fill: #ffffff !important;
-  stroke: #ffffff !important;
+  fill: #000000 !important;
+  stroke: #000000 !important;
+  transition: color 0.3s ease 0.2s, fill 0.3s ease 0.2s, stroke 0.3s ease 0.2s;
+}
+
+.btn-hover3 svg,
+.btn-hover3 img {
+  position: relative;
+  z-index: 1;
 }
