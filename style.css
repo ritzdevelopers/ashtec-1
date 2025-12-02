@@ -366,3 +366,53 @@ body.menu-open {
     min-height: 900px !important;
   }
 }
+
+/* Button Hover Effect Class */
+.btn-hover {
+  transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
+}
+
+.btn-hover:hover {
+  background-color: #000000 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+}
+
+/* Ensure text and icons inside button change color on hover */
+.btn-hover:hover * {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Smooth transition for SVG icons inside buttons */
+.btn-hover svg,
+.btn-hover img {
+  transition: all 0.4s ease;
+}
+
+.btn-hover:hover svg {
+  filter: brightness(0) invert(1);
+}
+
+
+
+
+
+
+.btn-hover2 {
+  transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
+}
+
+.btn-hover2:hover {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  color: #000000 !important;
+}
+
+/* Ensure text and icons inside button change color on hover */
+.btn-hover2:hover * {
+  color: #000000 !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
