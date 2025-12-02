@@ -352,38 +352,36 @@ function updateSlider(direction) {
   sliderListNext.style.zIndex = "2";
   sliderListActive.style.zIndex = "1";
   
-  // Wait for image to load, then start synchronized cross-fade
-  const newImg = new Image();
-  newImg.onload = () => {
-    // Use requestAnimationFrame to ensure DOM is updated before animation
+  // Start animation immediately without waiting for image load
+  // Use requestAnimationFrame to ensure DOM is updated before animation
+  requestAnimationFrame(() => {
+    // Force reflow to ensure initial state is applied
+    sliderImgNext.offsetHeight;
+    sliderTitleNext.offsetHeight;
+    sliderListNext.offsetHeight;
+    
+    // STEP 4: Start synchronized cross-fade and translateY animation together
+    // Remove slider-title-next/slider-list-next classes to trigger transform animation
+    // This makes the element transition from initial transform to final transform
+    // during the fade-in, creating the merge effect
+    sliderTitleNext.classList.remove("slider-title-next");
+    sliderListNext.classList.remove("slider-list-next");
+    
+    // Force another reflow to ensure transform change is registered
     requestAnimationFrame(() => {
-      // Force reflow to ensure initial state is applied
-      sliderImgNext.offsetHeight;
-      sliderTitleNext.offsetHeight;
-      sliderListNext.offsetHeight;
+      // Start fade-out of active elements
+      sliderImgActive.classList.add("fade-out");
+      sliderTitleActive.classList.add("fade-out");
+      sliderListActive.classList.add("fade-out");
       
-      // STEP 4: Start synchronized cross-fade and translateY animation together
-      // Remove slider-title-next/slider-list-next classes to trigger transform animation
-      // This makes the element transition from initial transform to final transform
-      // during the fade-in, creating the merge effect
-      sliderTitleNext.classList.remove("slider-title-next");
-      sliderListNext.classList.remove("slider-list-next");
-      
-      // Force another reflow to ensure transform change is registered
-      requestAnimationFrame(() => {
-        // Start fade-out of active elements
-        sliderImgActive.classList.add("fade-out");
-        sliderTitleActive.classList.add("fade-out");
-        sliderListActive.classList.add("fade-out");
-        
-        // Start fade-in of next elements (translateY is already animating)
-        sliderImgNext.style.opacity = "1";
-        sliderTitleNext.style.opacity = "1";
-        sliderListNext.style.opacity = "1";
-      });
+      // Start fade-in of next elements (translateY is already animating)
+      sliderImgNext.style.opacity = "1";
+      sliderTitleNext.style.opacity = "1";
+      sliderListNext.style.opacity = "1";
+    });
 
-      // After transition completes, swap all elements (reduced timeout for faster text transition)
-      setTimeout(() => {
+    // After transition completes, swap all elements (reduced timeout for faster text transition)
+    setTimeout(() => {
         // Swap image references
         const tempImg = sliderImgActive;
         sliderImgActive = sliderImgNext;
@@ -441,9 +439,7 @@ function updateSlider(direction) {
         sliderListNext.classList.add("slider-list-next");
         sliderListNext.classList.remove("slide-down", "slide-up");
 
-        isTransitioning = false;
-      }, 600); // Match text transition duration (0.6s for opacity, 0.5s for transform)
-    });
-  };
-  newImg.src = sliderData[sliderIndex].img;
+      isTransitioning = false;
+    }, 250); // Match opacity transition duration (0.2s) - very quick, light merge effect like shadow
+  });
 }

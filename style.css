@@ -241,7 +241,7 @@ body.menu-open {
   position: absolute;
   top: 0;
   left: 0;
-  transition: opacity 0.9s linear;
+  transition: opacity 0.25s linear;
   display: block;
   width: 100%;
   height: 100%;
@@ -270,7 +270,7 @@ body.menu-open {
   top: 0;
   left: 0;
   right: 0;
-  transition: opacity 0.6s linear, transform 0.35s linear;
+  transition: opacity 0.2s linear, transform 0.5s linear;
   will-change: opacity, transform;
   backface-visibility: hidden;
   transform: translateZ(0);
@@ -307,7 +307,7 @@ body.menu-open {
   top: 50px;
   left: 0;
   right: 0;
-  transition: opacity 0.6s linear, transform 0.35s linear;
+  transition: opacity 0.2s linear, transform 0.5s linear;
   will-change: opacity, transform;
   backface-visibility: hidden;
   transform: translateZ(0);
@@ -394,11 +394,6 @@ body.menu-open {
 .btn-hover:hover svg {
   filter: brightness(0) invert(1);
 }
-
-
-
-
-
 
 .btn-hover2 {
   transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
