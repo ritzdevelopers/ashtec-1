@@ -358,16 +358,17 @@ function updateSlider(direction) {
   // STEP 3: Preload image and setup for cross-fade
   sliderImgNext.src = sliderData[sliderIndex].img;
   
-  // Set next elements z-index and initial opacity
+  // Set next elements z-index and initial opacity (very minimal merge effect)
   sliderImgNext.style.opacity = "0";
   sliderImgNext.style.zIndex = "2";
   sliderImgActive.style.zIndex = "1";
   
-  sliderTitleNext.style.opacity = "0";
+  // Start with very low opacity for minimal merge effect
+  sliderTitleNext.style.opacity = "0.15";
   sliderTitleNext.style.zIndex = "2";
   sliderTitleActive.style.zIndex = "1";
   
-  sliderListNext.style.opacity = "0";
+  sliderListNext.style.opacity = "0.15";
   sliderListNext.style.zIndex = "2";
   sliderListActive.style.zIndex = "1";
   
@@ -388,9 +389,11 @@ function updateSlider(direction) {
     
     // Force another reflow to ensure transform change is registered
     requestAnimationFrame(() => {
-      // Start fade-out of active elements
+      // Start fade-out of active elements (keep higher opacity for minimal merge)
       sliderImgActive.classList.add("fade-out");
+      sliderTitleActive.style.opacity = "0.85";
       sliderTitleActive.classList.add("fade-out");
+      sliderListActive.style.opacity = "0.85";
       sliderListActive.classList.add("fade-out");
       
       // Start fade-in of next elements (translateY is already animating)
@@ -540,221 +543,173 @@ function initScrollAnimations() {
   });
 
   // ============================================
-  // SECTION 2 - Hero Content Animation
+  // SECTION 2 - Specific Element Animations
   // ============================================
-  const s2Content = document.querySelector('.s1-right-container');
-  if (s2Content) {
+  // Section 2 Image
+  const s2Image = document.getElementById('s2-image-container');
+  if (s2Image) {
     gsap.fromTo(
-      s2Content,
-      {
-        scale: 1.1,
-        opacity: 0,
-      },
+      s2Image,
+      { scale: 1.1, opacity: 0 },
       {
         scale: 1,
         opacity: 1,
-        duration: 1.5,
+        duration: 0.6,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger: s2Content,
+          trigger: s2Image,
           start: 'top 95%',
-          end: 'bottom 20%',
           toggleActions: 'play none none reverse',
         },
       }
     );
   }
 
-  // ============================================
-  // SECTION 2 - Pre-launch Text Animation
-  // ============================================
-  const s2Texts = document.querySelectorAll('#home ~ section p, #home ~ section h1, #home ~ section button');
-  if (s2Texts.length > 0) {
-    gsap.utils.toArray(s2Texts).forEach((text, index) => {
-      gsap.fromTo(
-        text,
-        {
-          y: 60,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          delay: index * 0.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: text,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
+  // Section 2 Text Elements
+  const s2PreLaunch = document.getElementById('s2-pre-launch');
+  const s2Signature = document.getElementById('s2-signature');
+  const s2Title = document.getElementById('s2-title');
+  const s2Residences = document.getElementById('s2-residences');
+  const s2PriceBtn = document.getElementById('s2-price-btn');
+
+  if (s2PreLaunch) {
+    gsap.fromTo(s2PreLaunch, { y: 40, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, ease: 'power2.out',
+      scrollTrigger: { trigger: s2PreLaunch, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s2Signature) {
+    gsap.fromTo(s2Signature, { y: 40, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, delay: 0.1, ease: 'power2.out',
+      scrollTrigger: { trigger: s2Signature, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s2Title) {
+    gsap.fromTo(s2Title, { y: 40, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, delay: 0.2, ease: 'power2.out',
+      scrollTrigger: { trigger: s2Title, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s2Residences) {
+    gsap.fromTo(s2Residences, { y: 40, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, delay: 0.3, ease: 'power2.out',
+      scrollTrigger: { trigger: s2Residences, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s2PriceBtn) {
+    gsap.fromTo(s2PriceBtn, { y: 40, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, delay: 0.4, ease: 'power2.out',
+      scrollTrigger: { trigger: s2PriceBtn, start: 'top 95%', toggleActions: 'play none none reverse' }
     });
   }
 
   // ============================================
   // SECTION 3 - Highlights Section
   // ============================================
-  const highlightsSection = document.querySelector('#highlights');
-  if (highlightsSection) {
-    const highlightsContent = highlightsSection.querySelectorAll('h2, p, button');
-    gsap.utils.toArray(highlightsContent).forEach((el, index) => {
-      gsap.fromTo(
-        el,
-        {
-          y: 80,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          delay: index * 0.15,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: highlightsSection,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    });
+  const s3Title = document.getElementById('s3-title');
+  const s3Text1 = document.getElementById('s3-text-1');
+  const s3Text2 = document.getElementById('s3-text-2');
+  const s3BookBtn = document.getElementById('s3-book-btn');
+  const s3Image = document.getElementById('s3-image-container');
 
-    // Parallax effect for bottom image
-    const highlightsImg = highlightsSection.querySelector('img');
-    if (highlightsImg) {
-      gsap.to(highlightsImg, {
-        y: -100,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: highlightsImg,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-        },
-      });
-    }
+  if (s3Title) {
+    gsap.fromTo(s3Title, { y: 50, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, ease: 'power2.out',
+      scrollTrigger: { trigger: s3Title, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s3Text1) {
+    gsap.fromTo(s3Text1, { y: 50, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, delay: 0.1, ease: 'power2.out',
+      scrollTrigger: { trigger: s3Text1, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s3Text2) {
+    gsap.fromTo(s3Text2, { y: 50, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, delay: 0.2, ease: 'power2.out',
+      scrollTrigger: { trigger: s3Text2, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s3BookBtn) {
+    gsap.fromTo(s3BookBtn, { y: 50, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, delay: 0.3, ease: 'power2.out',
+      scrollTrigger: { trigger: s3BookBtn, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s3Image) {
+    gsap.to(s3Image, {
+      y: -80,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: s3Image,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1,
+      },
+    });
   }
 
   // ============================================
   // SECTION 4 - Project Overview
   // ============================================
-  const s4Section = document.querySelector('.s4');
-  if (s4Section) {
-    // Left side image animation
-    const s4LeftImg = s4Section.querySelector('img[alt="ash-s4-i1"]');
-    if (s4LeftImg) {
-      gsap.fromTo(
-        s4LeftImg,
-        {
-          scale: 1.15,
-          opacity: 0,
-        },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 1.5,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: s4LeftImg,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    }
+  const s4LeftImage = document.getElementById('s4-left-image');
+  const s4CheckList = document.getElementById('s4-check-list');
+  const s4RightImage = document.getElementById('s4-right-image');
 
-    // Check list items stagger animation
-    const checkItems = s4Section.querySelectorAll('.flex.gap-2.items-center');
+  if (s4LeftImage) {
+    gsap.fromTo(s4LeftImage, { scale: 1.1, opacity: 0 }, {
+      scale: 1, opacity: 1, duration: 0.6, ease: 'power2.out',
+      scrollTrigger: { trigger: s4LeftImage, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+
+  if (s4CheckList) {
+    const checkItems = s4CheckList.querySelectorAll('.flex.gap-2.items-center');
     if (checkItems.length > 0) {
-      gsap.fromTo(
-        checkItems,
-        {
-          x: -50,
-          opacity: 0,
-        },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: s4Section,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
+      gsap.fromTo(checkItems, { x: -40, opacity: 0 }, {
+        x: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: 'power2.out',
+        scrollTrigger: { trigger: s4CheckList, start: 'top 95%', toggleActions: 'play none none reverse' }
+      });
     }
+  }
 
-    // Right side image animation
-    const s4RightImg = s4Section.querySelector('img[alt=""]');
-    if (s4RightImg) {
-      gsap.fromTo(
-        s4RightImg,
-        {
-          scale: 1.1,
-          opacity: 0,
-        },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 1.3,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: s4RightImg,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    }
+  if (s4RightImage) {
+    gsap.fromTo(s4RightImage, { scale: 1.1, opacity: 0 }, {
+      scale: 1, opacity: 1, duration: 0.6, ease: 'power2.out',
+      scrollTrigger: { trigger: s4RightImage, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
   }
 
   // ============================================
   // SECTION 5 - Connectivity Section
   // ============================================
-  const connectivitySection = document.querySelector('#connectivity');
-  if (connectivitySection) {
-    const connectivityContent = connectivitySection.querySelectorAll('h2, p');
-    gsap.utils.toArray(connectivityContent).forEach((el, index) => {
-      gsap.fromTo(
-        el,
-        {
-          y: 60,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          delay: index * 0.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: connectivitySection,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    });
+  const s5Title = document.getElementById('s5-title');
+  const s5Subtitle = document.getElementById('s5-subtitle');
+  const sliderImg = document.querySelector('.sliderImg');
 
-    // Slider image parallax
-    const sliderImg = connectivitySection.querySelector('.sliderImg');
-    if (sliderImg) {
-      gsap.to(sliderImg, {
-        y: -80,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sliderImg,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.5,
-        },
-      });
-    }
+  if (s5Title) {
+    gsap.fromTo(s5Title, { y: 40, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, ease: 'power2.out',
+      scrollTrigger: { trigger: s5Title, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s5Subtitle) {
+    gsap.fromTo(s5Subtitle, { y: 40, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, delay: 0.1, ease: 'power2.out',
+      scrollTrigger: { trigger: s5Subtitle, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (sliderImg) {
+    gsap.to(sliderImg, {
+      y: -60,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: sliderImg,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.5,
+      },
+    });
   }
 
   // ============================================
@@ -768,20 +723,19 @@ function initScrollAnimations() {
         floorPlanCards,
         {
           y: 100,
-          opacity: 0,
+          opacity: 0.5,
           scale: 0.9,
         },
         {
           y: 0,
           opacity: 1,
           scale: 1,
-          duration: 1.2,
-          stagger: 0.2,
-          ease: 'power3.out',
+          duration: 0.1,
+          ease: 'none',
           scrollTrigger: {
             trigger: floorPlanSection,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
+            start: 'top 110%',
+           
           },
         }
       );
@@ -793,17 +747,17 @@ function initScrollAnimations() {
         floorPlanTitle,
         {
           y: 60,
-          opacity: 0,
+          opacity: 0.5,
         },
         {
           y: 0,
           opacity: 1,
-          duration: 1,
-          ease: 'power3.out',
+          duration: 0.1,
+          ease: 'none',
           scrollTrigger: {
             trigger: floorPlanTitle,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
+            start: 'top 110%',
+          
           },
         }
       );
@@ -813,136 +767,56 @@ function initScrollAnimations() {
   // ============================================
   // SECTION 7 - Amenities
   // ============================================
-  const amenitiesSection = document.querySelector('#amenities');
-  if (amenitiesSection) {
-    // Title animation
-    const amenitiesTitle = amenitiesSection.querySelector('h2');
-    if (amenitiesTitle) {
-      gsap.fromTo(
-        amenitiesTitle,
-        {
-          y: 60,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: amenitiesTitle,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    }
+  const s7TitleDesktop = document.getElementById('s7-title-desktop');
+  const s7TitleMobile = document.getElementById('s7-title-mobile');
+  const s7AmenitiesGrid = document.getElementById('s7-amenities-grid');
 
-    // Amenities cards stagger animation
-    const amenitiesCards = amenitiesSection.querySelectorAll('.shadow-\\[0_4px_16px_0_rgba\\(0\\,0\\,0\\,0\\.1\\)\\]');
+  if (s7TitleDesktop) {
+    gsap.fromTo(s7TitleDesktop, { y: 40, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, ease: 'power2.out',
+      scrollTrigger: { trigger: s7TitleDesktop, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s7TitleMobile) {
+    gsap.fromTo(s7TitleMobile, { y: 40, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, ease: 'power2.out',
+      scrollTrigger: { trigger: s7TitleMobile, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s7AmenitiesGrid) {
+    const amenitiesCards = s7AmenitiesGrid.querySelectorAll('.shadow-\\[0_4px_16px_0_rgba\\(0\\,0\\,0\\,0\\.1\\)\\]');
     if (amenitiesCards.length > 0) {
-      gsap.fromTo(
-        amenitiesCards,
-        {
-          y: 80,
-          opacity: 0,
-          scale: 0.8,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.9,
-          stagger: {
-            amount: 0.8,
-            from: 'start',
-          },
-          ease: 'back.out(1.2)',
-          scrollTrigger: {
-            trigger: amenitiesSection,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
+      gsap.fromTo(amenitiesCards, { y: 50, opacity: 0, scale: 0.9 }, {
+        y: 0, opacity: 1, scale: 1, duration: 0.5, stagger: 0.05, ease: 'power2.out',
+        scrollTrigger: { trigger: s7AmenitiesGrid, start: 'top 95%', toggleActions: 'play none none reverse' }
+      });
     }
   }
 
   // ============================================
   // SECTION 8 - Contact Us
   // ============================================
-  const contactSection = document.querySelector('#contactUs');
-  if (contactSection) {
-    // Title animation
-    const contactTitle = contactSection.querySelector('h2');
-    if (contactTitle) {
-      gsap.fromTo(
-        contactTitle,
-        {
-          y: 60,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: contactTitle,
-            start: 'top 100%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    }
+  const s8Title = document.getElementById('s8-title');
+  const s8FormContainer = document.getElementById('s8-form-container');
+  const s8MapContainer = document.getElementById('s8-map-container');
 
-    // Form animation
-    // const contactForm = contactSection.querySelector('form');
-    // if (contactForm) {
-    //   gsap.fromTo(
-    //     contactForm,
-    //     {
-    //       x: -80,
-    //       opacity: 0,
-    //     },
-    //     {
-    //       x: 0,
-    //       opacity: 1,
-    //       duration: 1.2,
-    //       ease: 'power3.out',
-    //       scrollTrigger: {
-    //         trigger: contactForm,
-    //         start: 'top 100%',
-    //         toggleActions: 'play none none reverse',
-    //       },
-    //     }
-    //   );
-    // }
-
-    // Map/image animation
-    const contactMap = contactSection.querySelector('img[alt="ash-map"]');
-    if (contactMap) {
-      gsap.fromTo(
-        contactMap,
-        {
-          x: 80,
-          opacity: 0,
-          scale: 1.1,
-        },
-        {
-          x: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1.2,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: contactMap,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    }
+  if (s8Title) {
+    gsap.fromTo(s8Title, { y: 40, opacity: 0 }, {
+      y: 0, opacity: 1, duration: 0.5, ease: 'power2.out',
+      scrollTrigger: { trigger: s8Title, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s8FormContainer) {
+    gsap.fromTo(s8FormContainer, { x: -50, opacity: 0 }, {
+      x: 0, opacity: 1, duration: 0.5, ease: 'power2.out',
+      scrollTrigger: { trigger: s8FormContainer, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (s8MapContainer) {
+    gsap.fromTo(s8MapContainer, { x: 50, opacity: 0, scale: 1.05 }, {
+      x: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out',
+      scrollTrigger: { trigger: s8MapContainer, start: 'top 95%', toggleActions: 'play none none reverse' }
+    });
   }
 
   // ============================================
@@ -952,25 +826,10 @@ function initScrollAnimations() {
   if (footerSection) {
     const footerContent = footerSection.querySelectorAll('h2, p');
     gsap.utils.toArray(footerContent).forEach((el, index) => {
-      gsap.fromTo(
-        el,
-        {
-          y: 60,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          delay: index * 0.15,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: footerSection,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
+      gsap.fromTo(el, { y: 40, opacity: 0 }, {
+        y: 0, opacity: 1, duration: 0.5, delay: index * 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: footerSection, start: 'top 95%', toggleActions: 'play none none reverse' }
+      });
     });
   }
 
