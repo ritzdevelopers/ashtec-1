@@ -228,3 +228,141 @@ body.menu-open {
     transform: translateY(-10px);
   }
 }
+
+/* Slider Animations */
+.sliderImg {
+  position: relative;
+  min-height: 391px;
+  contain: layout;
+  background: transparent;
+}
+
+.sliderImg img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.9s linear;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.sliderImg img.slider-img-active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.sliderImg img.slider-img-next {
+  opacity: 0;
+  z-index: 1;
+}
+
+.sliderImg img.fade-out {
+  opacity: 0;
+}
+
+.sliderTitle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  transition: opacity 0.6s linear, transform 0.35s linear;
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  contain: layout;
+}
+
+.sliderTitle.slider-title-active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.sliderTitle.slider-title-next {
+  opacity: 0;
+  z-index: 1;
+  transform: translateZ(0) translateY(12px);
+}
+
+/* When next element should end at slide-down (translateY(12px)), it starts at slide-up (translateY(0)) */
+.sliderTitle.slider-title-next.slide-down {
+  transform: translateZ(0) translateY(0);
+}
+
+/* When next element should end at slide-up (translateY(0)), it starts at slide-down (translateY(12px)) */
+.sliderTitle.slider-title-next.slide-up {
+  transform: translateZ(0) translateY(12px);
+}
+
+.sliderTitle.fade-out {
+  opacity: 0;
+}
+
+.sliderList {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  transition: opacity 0.6s linear, transform 0.35s linear;
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  contain: layout;
+}
+
+@media (min-width: 1024px) {
+  .sliderList {
+    top: 60px;
+  }
+}
+
+.sliderList.slider-list-active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.sliderList.slider-list-next {
+  opacity: 0;
+  z-index: 1;
+  transform: translateZ(0) translateY(12px);
+}
+
+/* When next element should end at slide-down (translateY(12px)), it starts at slide-up (translateY(0)) */
+.sliderList.slider-list-next.slide-down {
+  transform: translateZ(0) translateY(0);
+}
+
+/* When next element should end at slide-up (translateY(0)), it starts at slide-down (translateY(12px)) */
+.sliderList.slider-list-next.slide-up {
+  transform: translateZ(0) translateY(12px);
+}
+
+.sliderList.fade-out {
+  opacity: 0;
+}
+
+.sliderTitle.slide-down,
+.sliderList.slide-down {
+  transform: translateZ(0) translateY(12px);
+}
+
+.sliderTitle.slide-up,
+.sliderList.slide-up {
+  transform: translateZ(0) translateY(0);
+}
+
+@media (max-width: 400px) {
+  #connectivity {
+    min-height: 1150px !important;
+  }
+  form {
+    padding: 0px !important;
+  }
+  .footer {
+    min-height: 900px !important;
+  }
+}
