@@ -402,7 +402,7 @@ function updateSlider(direction) {
       sliderListNext.style.opacity = "1";
     });
 
-    // After transition completes, swap all elements (reduced timeout for faster text transition)
+    // After transition completes, swap all elements (smooth timing)
     setTimeout(() => {
         // Swap image references
         const tempImg = sliderImgActive;
@@ -462,7 +462,7 @@ function updateSlider(direction) {
         sliderListNext.classList.remove("slide-down", "slide-up");
 
       isTransitioning = false;
-    }, 250); // Match opacity transition duration (0.2s) - very quick, light merge effect like shadow
+    }, 400); // Match opacity transition duration (0.4s) - smooth transition
   });
 }
 
