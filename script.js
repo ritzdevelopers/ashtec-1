@@ -15,18 +15,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // Trigger reflow to ensure the element is rendered
     void mobileMenu.offsetWidth;
     mobileMenu.classList.add("menu-open");
-    body.style.overflow = "hidden"; // Prevent body scroll when menu is open
-    
-    // Stop Lenis smooth scroll when menu is open
+    body.style.overflow = "hidden"; 
+
     if (typeof lenis !== 'undefined' && lenis) {
       lenis.stop();
     }
 
-    // Add animation classes to menu items with delay (including logo)
     menuItems.forEach((item, index) => {
       setTimeout(() => {
         item.classList.add("menu-item-visible");
-      }, 150 + index * 100); // Stagger animation starting from 150ms
+      }, 150 + index * 100); 
     });
   }
 
@@ -37,15 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
       item.classList.remove("menu-item-visible");
     });
 
-    // Close menu overlay
     mobileMenu.classList.remove("menu-open");
 
-    // Wait for animation to complete before hiding
     setTimeout(() => {
       mobileMenu.classList.add("hidden");
-      body.style.overflow = ""; // Restore body scroll
-      
-      // Resume Lenis smooth scroll when menu is closed
+      body.style.overflow = ""; 
       if (typeof lenis !== 'undefined' && lenis) {
         lenis.start();
       }
@@ -349,9 +343,6 @@ function updateSlider(direction) {
   // Preload image
   sliderImgNext.src = sliderData[sliderIndex].img;
   
-  // Determine slide direction
-  // direction = 1 (right button): new slides in from right, old slides out to left
-  // direction = -1 (left button): new slides in from left, old slides out to right
   const slideInClass = direction === 1 ? "slide-in-right" : "slide-in-left";
   const slideOutClass = direction === 1 ? "slide-out-left" : "slide-out-right";
   
@@ -364,7 +355,7 @@ function updateSlider(direction) {
     sliderItemNext.style.transform = "translateX(-100%)";
   }
   
-  // Set z-index for layering - next should be on top during transition
+
   sliderItemNext.style.zIndex = "3";
   sliderItemActive.style.zIndex = "2";
   
