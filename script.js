@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const slideHTML = `
         <div class="swiper-slide">
           <div class="flex flex-col lg:flex-row lg:justify-center gap-8 lg:gap-[50px] w-full rounded-[8px]">
-            <div class="w-full lg:w-[687px] h-[391px] rounded-[20px] md:rounded-none md:h-[250px] lg:h-[391px] overflow-hidden">
+            <div class="w-full lg:w-[687px] h-[391px] rounded-[20px] md:rounded-none  lg:h-[391px] overflow-hidden">
               <img
                 src="${slide.img}"
                 alt="${slide.title}"
