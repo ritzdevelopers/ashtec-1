@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Slider Animation Controllers ::
+// Slider Data
 const sliderData = [
   {
     img: "./img/slider/ash-s1.png",
@@ -185,9 +185,6 @@ const sliderData = [
         para: "Nix Multi-Speciality Hospital",
       },
       {
-        para: "Rudra Fracture Hospital & Diagnostics",
-      },
-      {
         para: "Arogaya Hospital",
       },
     ],
@@ -201,9 +198,6 @@ const sliderData = [
       },
       {
         para: "NSEZ Metro Station",
-      },
-      {
-        para: "Nix Multi-Speciality Hospital",
       },
       {
         para: "Maripat Railway Station",
@@ -229,12 +223,6 @@ const sliderData = [
       {
         para: "Bloom International School ",
       },
-      {
-        para: "Greater Noida Podar Learn School",
-      },
-      {
-        para: "Jaipuria International School",
-      },
     ],
   },
   {
@@ -257,198 +245,84 @@ const sliderData = [
   },
 ];
 
-let sliderIndex = 0;
-let sliderItemActive;
-let sliderItemNext;
-let sliderImgActive;
-let sliderImgNext;
-let sliderTitleActive;
-let sliderTitleNext;
-let sliderListActive;
-let sliderListNext;
-let sliderLeftBtn;
-let sliderRightBtn;
-let isTransitioning = false;
-
-// Initialize slider when DOM is ready
+// Initialize Swiper when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
-  sliderItemActive = document.querySelector(".slider-item-active");
-  sliderItemNext = document.querySelector(".slider-item-next");
-  sliderImgActive = sliderItemActive?.querySelector(".slider-img-active");
-  sliderImgNext = sliderItemNext?.querySelector(".slider-img-next");
-  sliderTitleActive = sliderItemActive?.querySelector(".slider-title-active");
-  sliderTitleNext = sliderItemNext?.querySelector(".slider-title-next");
-  sliderListActive = sliderItemActive?.querySelector(".slider-list-active");
-  sliderListNext = sliderItemNext?.querySelector(".slider-list-next");
-  sliderLeftBtn = document.querySelector(".sliderLeftBtn");
-  sliderRightBtn = document.querySelector(".sliderRightBtn");
+  // Wait for Swiper library to be available
+  if (typeof Swiper === 'undefined') {
+    console.error('Swiper library not loaded');
+    return;
+  }
 
-  // Add event listeners
-  if (sliderLeftBtn) {
-    sliderLeftBtn.addEventListener("click", () => {
-      updateSlider(-1);
+  const swiperWrapper = document.querySelector(".locationSwiper .swiper-wrapper");
+  
+  // Generate slides from sliderData
+  if (swiperWrapper) {
+    sliderData.forEach((slide, index) => {
+      const slideHTML = `
+        <div class="swiper-slide">
+          <div class="flex flex-col lg:flex-row lg:justify-center gap-8 lg:gap-[50px] w-full rounded-[8px]">
+            <div class="w-full lg:w-[687px] h-[391px] rounded-[20px] md:rounded-none md:h-[250px] lg:h-[391px] overflow-hidden">
+              <img
+                src="${slide.img}"
+                alt="${slide.title}"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="w-full h-auto lg:min-h-[359px] lg:w-[445px] relative">
+              <h3
+                class="uppercase font-[600] text-[20px] lg:text-[24px]"
+                style="font-family: 'MonsterSemiBold'"
+              >
+                ${slide.title}
+              </h3>
+              <div class="flex flex-col gap-4 mt-4">
+                ${slide.list.map((item, itemIndex) => `
+                  <div class="flex gap-2 items-center">
+                    <img
+                      src="img/pointer.png"
+                      alt="check-circle"
+                      class="${itemIndex === 0 ? 'w-[50px] h-[50px]' : 'w-[40px] lg:w-[50px] h-[40px] lg:h-[50px]'}"
+                    />
+                    <p
+                      class="font-[400] text-[20px] capitalize text-[#000000]"
+                      style="font-family: 'MonsterRegular'"
+                    >
+                      ${item.para}
+                    </p>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      swiperWrapper.innerHTML += slideHTML;
     });
   }
 
-  if (sliderRightBtn) {
-    sliderRightBtn.addEventListener("click", () => {
-      updateSlider(1);
-    });
-  }
+  // Initialize Swiper
+  const locationSwiper = new Swiper(".locationSwiper", {
+    spaceBetween: 30,
+    centeredSlides: true,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next-custom",
+      prevEl: ".swiper-button-prev-custom",
+    },
+    loop: true,
+    effect: "slide",
+    speed: 500,
+  });
 });
 
-function updateSlider(direction) {
-  // Check if slider items exist
-  if (!sliderItemActive || !sliderItemNext) {
-    return;
-  }
-  
-  // Get current element references (they may have changed after previous swap)
-  sliderImgActive = sliderItemActive.querySelector(".slider-img-active");
-  sliderImgNext = sliderItemNext.querySelector(".slider-img-next");
-  sliderTitleActive = sliderItemActive.querySelector(".slider-title-active");
-  sliderTitleNext = sliderItemNext.querySelector(".slider-title-next");
-  sliderListActive = sliderItemActive.querySelector(".slider-list-active");
-  sliderListNext = sliderItemNext.querySelector(".slider-list-next");
-  
-  // Check if all elements exist
-  if (!sliderImgActive || !sliderImgNext || !sliderTitleActive || !sliderTitleNext || !sliderListActive || !sliderListNext) {
-    return;
-  }
 
-  // Prevent multiple rapid clicks during transition
-  if (isTransitioning) {
-    return;
-  }
-
-  isTransitioning = true;
-
-  sliderIndex += direction;
-  if (sliderIndex < 0) {
-    sliderIndex = sliderData.length - 1;
-  } else if (sliderIndex >= sliderData.length) {
-    sliderIndex = 0;
-  }
-
-  // Update content in next slider item
-  sliderTitleNext.textContent = sliderData[sliderIndex].title;
-  sliderListNext.innerHTML = sliderData[sliderIndex].list
-    .map(
-      (item, index) =>
-        `<div class="flex gap-2 items-center "><img src="img/pointer.png" alt="check-circle" class="${index === 0 ? 'w-[50px] h-[50px]' : 'w-[40px] lg:w-[50px] h-[40px] lg:h-[50px]'}">
-      <p class="font-[400] text-[20px] capitalize text-[#000000]" style="font-family: 'MonsterRegular'">${item.para}</p></div>`
-    )
-    .join("");
-  
-  // Preload image
-  sliderImgNext.src = sliderData[sliderIndex].img;
-  
-  const slideInClass = direction === 1 ? "slide-in-right" : "slide-in-left";
-  const slideOutClass = direction === 1 ? "slide-out-left" : "slide-out-right";
-  
-  // Position next slider item off-screen before animation
-  if (direction === 1) {
-    // Sliding from right: position next item at 100%
-    sliderItemNext.style.transform = "translateX(100%)";
-  } else {
-    // Sliding from left: position next item at -100%
-    sliderItemNext.style.transform = "translateX(-100%)";
-  }
-  
-
-  sliderItemNext.style.zIndex = "3";
-  sliderItemActive.style.zIndex = "2";
-  
-  // Remove any previous animation classes
-  sliderItemActive.classList.remove("slide-out-left", "slide-out-right");
-  sliderItemNext.classList.remove("slide-in-left", "slide-in-right");
-  
-  // Apply slide-out to active item
-  sliderItemActive.classList.add(slideOutClass);
-  
-  // Apply slide-in to next item
-  sliderItemNext.classList.add(slideInClass);
-  
-  // After transition completes, swap slider items
-  setTimeout(() => {
-    // Get current image, title, and list elements before swapping
-    const currentImgActive = sliderItemActive.querySelector("img");
-    const currentImgNext = sliderItemNext.querySelector("img");
-    const currentTitleActive = sliderItemActive.querySelector(".sliderTitle");
-    const currentTitleNext = sliderItemNext.querySelector(".sliderTitle");
-    const currentListActive = sliderItemActive.querySelector(".sliderList");
-    const currentListNext = sliderItemNext.querySelector(".sliderList");
-    
-    // Swap class names on images
-    if (currentImgActive) {
-      currentImgActive.classList.remove("slider-img-active");
-      currentImgActive.classList.add("slider-img-next");
-    }
-    if (currentImgNext) {
-      currentImgNext.classList.remove("slider-img-next");
-      currentImgNext.classList.add("slider-img-active");
-    }
-    
-    // Swap class names on titles
-    if (currentTitleActive) {
-      currentTitleActive.classList.remove("slider-title-active");
-      currentTitleActive.classList.add("slider-title-next");
-    }
-    if (currentTitleNext) {
-      currentTitleNext.classList.remove("slider-title-next");
-      currentTitleNext.classList.add("slider-title-active");
-    }
-    
-    // Swap class names on lists
-    if (currentListActive) {
-      currentListActive.classList.remove("slider-list-active");
-      currentListActive.classList.add("slider-list-next");
-    }
-    if (currentListNext) {
-      currentListNext.classList.remove("slider-list-next");
-      currentListNext.classList.add("slider-list-active");
-    }
-    
-    // Swap slider item references
-    const tempItem = sliderItemActive;
-    sliderItemActive = sliderItemNext;
-    sliderItemNext = tempItem;
-    
-    // Update element references from new active item
-    sliderImgActive = sliderItemActive.querySelector(".slider-img-active");
-    sliderImgNext = sliderItemNext.querySelector(".slider-img-next");
-    sliderTitleActive = sliderItemActive.querySelector(".slider-title-active");
-    sliderTitleNext = sliderItemNext.querySelector(".slider-title-next");
-    sliderListActive = sliderItemActive.querySelector(".slider-list-active");
-    sliderListNext = sliderItemNext.querySelector(".slider-list-next");
-    
-    // Reset classes and transform on slider items
-    sliderItemActive.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
-    sliderItemActive.style.zIndex = "2";
-    sliderItemActive.style.transform = "translateX(0)";
-    sliderItemActive.style.position = "relative";
-    
-    sliderItemNext.classList.remove("slide-in-left", "slide-in-right", "slide-out-left", "slide-out-right");
-    sliderItemNext.style.zIndex = "1";
-    sliderItemNext.style.transform = "translateX(100%)";
-    sliderItemNext.style.position = "absolute";
-    
-    // Swap class names on slider items
-    sliderItemActive.classList.remove("slider-item-next");
-    sliderItemActive.classList.add("slider-item-active");
-    
-    sliderItemNext.classList.remove("slider-item-active");
-    sliderItemNext.classList.add("slider-item-next");
-
-    isTransitioning = false;
-  }, 500); // Match transition duration
-}
-
-// ============================================
-// LENIS SMOOTH SCROLL & SCROLLTRIGGER ANIMATIONS
-// ============================================
-
-// Initialize Lenis Smooth Scroll (global variable for access across functions)
 let lenis;
 
 function initLenis() {
