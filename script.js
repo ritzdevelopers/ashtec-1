@@ -711,6 +711,186 @@ function initScrollAnimations() {
 }
 
 // ============================================
+// CONTACT FORM SUBMISSION HANDLER
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  const contactForm = document.querySelector("#contactForm");
+  const contactFormSubmitBtn = document.getElementById("contactFormSubmitBtn");
+  const contactFormLoader = document.getElementById("contactFormLoader");
+  const contactFormSubmitText = document.getElementById("contactFormSubmitText");
+  
+  if (contactForm) {
+    contactForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      // Show loader
+      if (contactFormLoader) contactFormLoader.classList.remove("hidden");
+      if (contactFormSubmitBtn) contactFormSubmitBtn.disabled = true;
+      if (contactFormSubmitText) contactFormSubmitText.style.opacity = "0";
+      
+      const formData = {
+        name: document.querySelector("#name").value,
+        email: document.querySelector("#email").value,
+        phone: document.querySelector("#phone").value,
+        message: document.querySelector("#message").value,
+        time: new Date().toLocaleTimeString(),
+        date: new Date().toLocaleDateString(),
+        leadLocation: "HTML Page Lead"
+      };
+
+      sendToGoogleSheet(formData)
+        .then(() => {
+          // Hide loader
+          if (contactFormLoader) contactFormLoader.classList.add("hidden");
+          if (contactFormSubmitBtn) contactFormSubmitBtn.disabled = false;
+          if (contactFormSubmitText) contactFormSubmitText.style.opacity = "1";
+          
+          contactForm.reset();
+          showResponseModal(true, 'Enquiry Submitted Successfully!', 'Thank you for your interest. We will get back to you soon.');
+        })
+        .catch((error) => {
+          // Hide loader
+          if (contactFormLoader) contactFormLoader.classList.add("hidden");
+          if (contactFormSubmitBtn) contactFormSubmitBtn.disabled = false;
+          if (contactFormSubmitText) contactFormSubmitText.style.opacity = "1";
+          
+          console.error('Error submitting form:', error);
+          showResponseModal(false, 'Submission Failed', 'There was an error submitting your form. Please try again.');
+        });
+    });
+  }
+});
+
+// ============================================
+// GOOGLE SHEETS INTEGRATION
+// ============================================
+
+async function sendToGoogleSheet(formData) {
+  const scriptURL = "https://script.google.com/macros/s/AKfycbzCUvsB7xLH8AJa-BbDJ_NyNIhvmn2Ysj0k8jMtV4j1-YGK1lJLjKdmgSnO-pzG57W93g/exec";
+
+  try {
+    const response = await fetch(scriptURL, {
+      method: "POST",
+      body: JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+    console.log('Success:', result);
+    return result;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+// ============================================
+// RESPONSE MODAL FUNCTIONALITY
+// ============================================
+
+function showResponseModal(isSuccess, title, message) {
+  const responseModal = document.getElementById('responseModal');
+  const responseTitle = document.getElementById('responseTitle');
+  const responseMessage = document.getElementById('responseMessage');
+  const responseOkBtn = document.getElementById('responseOkBtn');
+  const body = document.body;
+
+  if (!responseModal) return;
+
+  // Update modal content
+  if (responseTitle) responseTitle.textContent = title;
+  if (responseMessage) responseMessage.textContent = message;
+
+  // Update icon based on success/failure
+  const iconContainer = document.getElementById('responseModalIcon');
+  if (iconContainer) {
+    if (isSuccess) {
+      iconContainer.innerHTML = `
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="40" fill="#EAB91F" opacity="0.1"/>
+          <circle cx="40" cy="40" r="30" stroke="#EAB91F" stroke-width="2" fill="none"/>
+          <path d="M30 40L36 46L50 32" stroke="#EAB91F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="response-check-icon"/>
+        </svg>
+      `;
+    } else {
+      iconContainer.innerHTML = `
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="40" fill="#AC1F0F" opacity="0.1"/>
+          <circle cx="40" cy="40" r="30" stroke="#AC1F0F" stroke-width="2" fill="none"/>
+          <path d="M30 30L50 50M50 30L30 50" stroke="#AC1F0F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `;
+    }
+  }
+
+  // Show modal
+  responseModal.classList.remove('hidden');
+  body.style.overflow = 'hidden';
+
+  // Pause Lenis when modal is open
+  if (typeof lenis !== 'undefined' && lenis) {
+    lenis.stop();
+  }
+
+  // Handle OK button click
+  if (responseOkBtn) {
+    // Remove existing listeners
+    const newBtn = responseOkBtn.cloneNode(true);
+    responseOkBtn.parentNode.replaceChild(newBtn, responseOkBtn);
+
+    newBtn.addEventListener('click', () => {
+      if (isSuccess) {
+        // Navigate to thank you page on success
+        window.location.href = 'thanks.html';
+      } else {
+        // Just close modal on error
+        closeResponseModal();
+      }
+    });
+  }
+
+  // Close on Escape key
+  const escapeHandler = (e) => {
+    if (e.key === 'Escape') {
+      if (isSuccess) {
+        window.location.href = 'thanks.html';
+      } else {
+        closeResponseModal();
+      }
+      document.removeEventListener('keydown', escapeHandler);
+    }
+  };
+  document.addEventListener('keydown', escapeHandler);
+
+  // Close on overlay click
+  responseModal.addEventListener('click', function overlayClick(e) {
+    if (e.target === responseModal) {
+      if (isSuccess) {
+        window.location.href = 'thanks.html';
+      } else {
+        closeResponseModal();
+      }
+      responseModal.removeEventListener('click', overlayClick);
+    }
+  });
+}
+
+function closeResponseModal() {
+  const responseModal = document.getElementById('responseModal');
+  const body = document.body;
+
+  if (!responseModal) return;
+
+  responseModal.classList.add('hidden');
+  body.style.overflow = '';
+
+  // Resume Lenis when modal is closed
+  if (typeof lenis !== 'undefined' && lenis) {
+    lenis.start();
+  }
+}
+
+// ============================================
 // CONTACT MODAL FUNCTIONALITY
 // ============================================
 
@@ -780,8 +960,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Form submission handler
   if (modalForm) {
+    const modalFormSubmitBtn = document.getElementById("modalFormSubmitBtn");
+    const modalFormLoader = document.getElementById("modalFormLoader");
+    const modalFormSubmitText = document.getElementById("modalFormSubmitText");
+
     modalForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      
+      // Show loader
+      if (modalFormLoader) modalFormLoader.classList.remove("hidden");
+      if (modalFormSubmitBtn) modalFormSubmitBtn.disabled = true;
+      if (modalFormSubmitText) modalFormSubmitText.style.opacity = "0";
       
       // Get form data
       const formData = {
@@ -789,16 +978,36 @@ document.addEventListener('DOMContentLoaded', () => {
         email: document.getElementById('modalEmail').value,
         phone: document.getElementById('modalPhone').value,
         message: document.getElementById('modalMessage').value,
+        time: new Date().toLocaleTimeString(),
+        date: new Date().toLocaleDateString(),
+        leadLocation: "HTML Page Lead"
       };
 
-      // Here you can add your form submission logic
-      console.log('Form submitted:', formData);
-      
-      // Show success message (you can customize this)
-      alert('Thank you for your inquiry! We will get back to you soon.');
-      
-      // Close modal after submission
-      closeModal();
+      // Send to Google Sheets
+      sendToGoogleSheet(formData)
+        .then(() => {
+          // Hide loader
+          if (modalFormLoader) modalFormLoader.classList.add("hidden");
+          if (modalFormSubmitBtn) modalFormSubmitBtn.disabled = false;
+          if (modalFormSubmitText) modalFormSubmitText.style.opacity = "1";
+          
+          // Close contact modal
+          closeModal();
+          // Show response modal
+          showResponseModal(true, 'Enquiry Submitted Successfully!', 'Thank you for your interest. We will get back to you soon.');
+        })
+        .catch((error) => {
+          // Hide loader
+          if (modalFormLoader) modalFormLoader.classList.add("hidden");
+          if (modalFormSubmitBtn) modalFormSubmitBtn.disabled = false;
+          if (modalFormSubmitText) modalFormSubmitText.style.opacity = "1";
+          
+          console.error('Error submitting form:', error);
+          // Close contact modal
+          closeModal();
+          // Show error response modal
+          showResponseModal(false, 'Submission Failed', 'There was an error submitting your form. Please try again.');
+        });
     });
   }
 

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thank You - ASHTECH</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="overflow-x-hidden bg-gradient-to-b from-[#FFECA1] to-[#FFFEFB] min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-4xl mx-auto px-4 py-8">
+      <!-- Thank You Container -->
+      <div class="thank-you-container bg-white rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.15)] p-8 lg:p-12 text-center">
+        <!-- Success Icon -->
+        <div class="thank-you-icon mb-6">
+          <div class="inline-flex items-center justify-center w-24 h-24 lg:w-32 lg:h-32 rounded-full bg-gradient-to-br from-[#EAB91F] to-[#DA8712] mb-6">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="lg:w-20 lg:h-20">
+              <path d="M20 30L27 37L40 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="30" cy="30" r="25" stroke="white" stroke-width="3" fill="none"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Thank You Title -->
+        <h1 class="thank-you-title font-[700] text-[28px] lg:text-[42px] mb-4" style="font-family: 'MonsterBold'">
+          <span style="background: linear-gradient(90deg, #DA8712 0%, #215430 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            Thank You!
+          </span>
+        </h1>
+
+        <!-- Thank You Message -->
+        <p class="thank-you-message font-[400] text-[16px] lg:text-[20px] text-[#222021] mb-8 max-w-2xl mx-auto leading-relaxed" style="font-family: 'MonsterRegular'">
+          Your enquiry has been submitted successfully. Our team will get back to you shortly.
+        </p>
+
+        <!-- Timer Section -->
+        <div class="timer-section mb-8">
+          <p class="timer-text font-[500] text-[14px] lg:text-[18px] text-[#666666] mb-4" style="font-family: 'MonsterMedium'">
+            Redirecting to home page in
+          </p>
+          <div class="timer-display inline-flex items-center justify-center">
+            <span id="timerCount" class="timer-number font-[700] text-[36px] lg:text-[48px] text-[#EAB91F]" style="font-family: 'MonsterBold'">5</span>
+            <span class="timer-unit font-[500] text-[18px] lg:text-[24px] text-[#666666] ml-2" style="font-family: 'MonsterMedium'">seconds</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="thank-you-actions flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <button
+            id="backToHomeBtn"
+            class="back-home-btn btn-hover w-full sm:w-auto min-w-[200px] h-[50px] lg:h-[58px] bg-gradient-to-r from-[#DA8712] to-[#EAB91F] font-[600] text-[16px] lg:text-[20px] text-white rounded-full"
+            style="font-family: 'OpenSansSemiBold'"
+          >
+            Back to Home
+          </button>
+        </div>
+
+        <!-- Logo -->
+        <div class="thank-you-logo mt-12">
+          <img src="img/ash-logo.png" alt="ASHTECH Logo" class="w-[200px] lg:w-[271px] h-auto mx-auto opacity-80" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script>
+      let countdown = 5;
+      let timerInterval;
+      const timerCountEl = document.getElementById('timerCount');
+      const backToHomeBtn = document.getElementById('backToHomeBtn');
+
+      function updateTimer() {
+        if (countdown <= 0) {
+          clearInterval(timerInterval);
+          navigateToHome();
+          return;
+        }
+        timerCountEl.textContent = countdown;
+        countdown--;
+      }
+
+      function navigateToHome() {
+        window.location.href = 'index.html#home';
+      }
+
+      // Initialize timer display
+      timerCountEl.textContent = countdown;
+      
+      // Start countdown after 1 second
+      timerInterval = setInterval(updateTimer, 1000);
+
+      // Back to home button click
+      backToHomeBtn.addEventListener('click', () => {
+        clearInterval(timerInterval);
+        navigateToHome();
+      });
+    </script>
+  </body>
+</html>
+
