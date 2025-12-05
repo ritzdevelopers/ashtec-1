@@ -906,6 +906,9 @@ document.addEventListener('DOMContentLoaded', () => {
       modal.classList.remove('hidden');
       body.style.overflow = 'hidden';
       
+      // Mark modal as shown in localStorage (so it won't auto-open again)
+      localStorage.setItem('ashtech_welcome_modal_shown', 'true');
+      
       // Pause Lenis when modal is open
       if (typeof lenis !== 'undefined' && lenis) {
         lenis.stop();
@@ -1087,4 +1090,45 @@ document.addEventListener('DOMContentLoaded', () => {
       this.src = 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=1000&fit=crop&q=80';
     };
   }
+
+  // Auto-open modal on first visit after 5 seconds
+  function checkAndOpenWelcomeModal() {
+    // Check if modal has been shown before using localStorage
+    const hasSeenModal = localStorage.getItem('ashtech_welcome_modal_shown');
+    
+    if (!hasSeenModal) {
+      // Wait 5 seconds before opening
+      setTimeout(() => {
+        // Get fresh reference to modal to ensure it exists
+        const currentModal = document.getElementById('contactModal');
+        const currentBody = document.body;
+        
+        // Double check modal is not already open (user might have opened it manually)
+        if (currentModal && currentModal.classList.contains('hidden')) {
+          // Open modal directly
+          currentModal.classList.remove('hidden');
+          currentBody.style.overflow = 'hidden';
+          
+          // Mark modal as shown in localStorage
+          localStorage.setItem('ashtech_welcome_modal_shown', 'true');
+          
+          // Pause Lenis when modal is open
+          if (typeof lenis !== 'undefined' && lenis) {
+            lenis.stop();
+          }
+
+          // Prevent scroll on modal container
+          const modalContainer = currentModal.querySelector('.contact-modal-container');
+          if (modalContainer) {
+            modalContainer.style.maxHeight = '90vh';
+          }
+        }
+      }, 5000); // 5 seconds delay
+    }
+  }
+
+  // Check and open welcome modal on page load (with small delay to ensure DOM is ready)
+  setTimeout(() => {
+    checkAndOpenWelcomeModal();
+  }, 1000);
 });
