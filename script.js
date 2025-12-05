@@ -747,7 +747,8 @@ document.addEventListener('DOMContentLoaded', () => {
           if (contactFormSubmitText) contactFormSubmitText.style.opacity = "1";
           
           contactForm.reset();
-          showResponseModal(true, 'Enquiry Submitted Successfully!', 'Thank you for your interest. We will get back to you soon.');
+          // showResponseModal(true, 'Enquiry Submitted Successfully!', 'Thank you for your interest. We will get back to you soon.');
+          window.location.href = 'thanks.html';
         })
         .catch((error) => {
           // Hide loader
@@ -997,7 +998,8 @@ document.addEventListener('DOMContentLoaded', () => {
           // Close contact modal
           closeModal();
           // Show response modal
-          showResponseModal(true, 'Enquiry Submitted Successfully!', 'Thank you for your interest. We will get back to you soon.');
+          // showResponseModal(true, 'Enquiry Submitted Successfully!', 'Thank you for your interest. We will get back to you soon.');
+          window.location.href = 'thanks.html';
         })
         .catch((error) => {
           // Hide loader
